@@ -508,7 +508,7 @@ export default function App() {
             borderRadius: 16,
           }}
         >
-          <div style={{ fontSize: 28, fontWeight: 800 }}>13 LPA &rarr; 25+ LPA</div>
+          <div style={{ fontSize: 28, fontWeight: 800 }}>Full-Stack &rarr; AI Engineer</div>
           <p style={{ color: "#64748b", fontSize: 13, marginTop: 6, maxWidth: 460, margin: "6px auto 0" }}>
             60 days. 3 deployed AI projects. Your full-stack foundation + GenAI = the most in-demand skill combination in 2026.
           </p>
