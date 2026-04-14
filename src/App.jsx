@@ -929,14 +929,20 @@ export default function App() {
           })
         )}
 
-        {/* ===== FOOTER ===== */}
-        <div style={{
-          textAlign: "center", padding: "32px 20px", marginTop: 8, marginBottom: 40,
-          background: "linear-gradient(135deg, rgba(245,158,11,0.06), rgba(6,182,212,0.06), rgba(236,72,153,0.06))",
-          border: "1px solid #1e2330", borderRadius: 16,
-        }}>
-          <div style={{ fontSize: 28, fontWeight: 800 }}>Build. Ship. Get Hired.</div>
-          <p style={{ color: "#64748b", fontSize: 13, maxWidth: 480, margin: "8px auto 0", lineHeight: 1.6 }}>
+        {/* Salary target */}
+        <div
+          style={{
+            textAlign: "center",
+            padding: "28px 20px",
+            marginTop: 8,
+            marginBottom: 40,
+            background: "linear-gradient(135deg, rgba(245,158,11,0.06), rgba(6,182,212,0.06), rgba(236,72,153,0.06))",
+            border: "1px solid #1e2330",
+            borderRadius: 16,
+          }}
+        >
+          <div style={{ fontSize: 28, fontWeight: 800 }}>Full-Stack &rarr; AI Engineer</div>
+          <p style={{ color: "#64748b", fontSize: 13, marginTop: 6, maxWidth: 460, margin: "6px auto 0" }}>
             60 days. 3 deployed AI projects. Your full-stack foundation + GenAI = the most in-demand skill combination in 2026.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16 }}>
