@@ -203,6 +203,93 @@ const WEEK_SKILLS = {
   9: ["Portfolio Strategy", "Technical Writing", "AI System Design"],
 };
 
+const WEEK_RESOURCES = {
+  1: [
+    { label: "Python Official Tutorial", url: "https://docs.python.org/3/tutorial/" },
+    { label: "Corey Schafer \u2014 Python Basics Playlist", url: "https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" },
+    { label: "uv Package Manager Docs", url: "https://docs.astral.sh/uv/" },
+    { label: "Krish Naik \u2014 Python for Data Science (Hindi)", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVNUL99R4bDlVYsncUNvwUBB" },
+    { label: "Tech With Tim \u2014 Python Beginner Tutorial", url: "https://www.youtube.com/playlist?list=PLzMcBGfZo4-mFu00qxl0a67RhjjZj3jXm" },
+  ],
+  2: [
+    { label: "FastAPI Official Tutorial", url: "https://fastapi.tiangolo.com/tutorial/" },
+    { label: "OpenAI API Docs", url: "https://platform.openai.com/docs" },
+    { label: "Anthropic Claude Docs", url: "https://docs.anthropic.com" },
+    { label: "DeepLearning.AI \u2014 Prompt Engineering for Devs", url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/" },
+    { label: "Tech With Tim \u2014 FastAPI Tutorial", url: "https://www.youtube.com/watch?v=cbASjoZZGIw" },
+    { label: "Krish Naik \u2014 Complete GenAI Course", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVORE4VF7WQ_fAl0L1Gljtar" },
+  ],
+  3: [
+    { label: "LangChain Docs \u2014 Tutorials", url: "https://python.langchain.com/docs/tutorials/" },
+    { label: "ChromaDB Docs", url: "https://docs.trychroma.com/" },
+    { label: "DeepLearning.AI \u2014 LangChain for LLM Apps", url: "https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/" },
+    { label: "DeepLearning.AI \u2014 Building & Evaluating Advanced RAG", url: "https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/" },
+    { label: "James Briggs \u2014 RAG from Scratch", url: "https://www.youtube.com/watch?v=sVcwVQRHIc8" },
+    { label: "CampusX \u2014 RAG Tutorial (Hindi)", url: "https://www.youtube.com/watch?v=wBhY-7B2jdY" },
+  ],
+  4: [
+    { label: "FastAPI \u2014 File Upload Docs", url: "https://fastapi.tiangolo.com/tutorial/request-files/" },
+    { label: "Vercel AI SDK", url: "https://sdk.vercel.ai/docs" },
+    { label: "Sam Witteveen \u2014 Build a RAG App", url: "https://www.youtube.com/watch?v=tcqEUSNCn8I" },
+    { label: "Railway Deployment Guide", url: "https://docs.railway.app/" },
+    { label: "Dave Ebbelaar \u2014 Full Stack AI App", url: "https://www.youtube.com/watch?v=kXdbKKpOaas" },
+  ],
+  5: [
+    { label: "LangGraph Official Docs", url: "https://langchain-ai.github.io/langgraph/" },
+    { label: "LangChain Academy \u2014 LangGraph Course (Free)", url: "https://academy.langchain.com/" },
+    { label: "DeepLearning.AI \u2014 AI Agents in LangGraph", url: "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/" },
+    { label: "OpenAI \u2014 Function Calling Guide", url: "https://platform.openai.com/docs/guides/function-calling" },
+    { label: "Anthropic \u2014 Tool Use Guide", url: "https://docs.anthropic.com/en/docs/build-with-claude/tool-use" },
+    { label: "CampusX \u2014 AI Agents Explained (Hindi)", url: "https://www.youtube.com/watch?v=dN1a5K9BL1s" },
+  ],
+  6: [
+    { label: "Pinecone Docs & Learning Center", url: "https://docs.pinecone.io/" },
+    { label: "DeepLearning.AI \u2014 Vector Databases", url: "https://www.deeplearning.ai/short-courses/building-applications-vector-databases/" },
+    { label: "MCP Official Specification", url: "https://modelcontextprotocol.io/" },
+    { label: "Anthropic \u2014 MCP Docs", url: "https://docs.anthropic.com/en/docs/agents-and-tools/mcp" },
+    { label: "James Briggs \u2014 Pinecone + Hybrid Search", url: "https://www.youtube.com/watch?v=lRm0GRgRoF8" },
+    { label: "Krish Naik \u2014 Advanced RAG Techniques", url: "https://www.youtube.com/watch?v=T-D1OfcDW1M" },
+  ],
+  7: [
+    { label: "LangGraph \u2014 Multi-Agent Tutorial", url: "https://langchain-ai.github.io/langgraph/tutorials/multi_agent/" },
+    { label: "Docker Compose Docs", url: "https://docs.docker.com/compose/" },
+    { label: "Dave Ebbelaar \u2014 Multi-Agent AI System", url: "https://www.youtube.com/watch?v=a3MJKgOvZHo" },
+    { label: "DeepLearning.AI \u2014 Multi AI Agent Systems with CrewAI", url: "https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/" },
+  ],
+  8: [
+    { label: "LangSmith Docs \u2014 LLM Observability", url: "https://docs.smith.langchain.com/" },
+    { label: "LangFuse Docs (Open Source)", url: "https://langfuse.com/docs" },
+    { label: "Stripe + Next.js Guide", url: "https://stripe.com/docs/payments/quickstart" },
+    { label: "DeepLearning.AI \u2014 LLMOps", url: "https://www.deeplearning.ai/short-courses/llmops/" },
+    { label: "Vercel \u2014 Next.js Auth Tutorial", url: "https://nextjs.org/learn/dashboard-app" },
+  ],
+  9: [
+    { label: "Awesome GitHub Profile READMEs", url: "https://github.com/abhisheknaiidu/awesome-github-profile-readme" },
+    { label: "levels.fyi \u2014 AI Engineer Roles", url: "https://www.levels.fyi/" },
+    { label: "Hashnode \u2014 Start a Dev Blog (Free)", url: "https://hashnode.com/" },
+    { label: "AI Engineer Job Board", url: "https://aijobs.net/" },
+    { label: "DeepLearning.AI \u2014 How to Build Your Career in AI (Free)", url: "https://www.deeplearning.ai/resources/how-to-build-a-career-in-ai/" },
+  ],
+};
+
+const TOP_CHANNELS = [
+  { name: "Krish Naik", desc: "Python, ML, GenAI (Hindi + English)", url: "https://www.youtube.com/@krishnaik06" },
+  { name: "CampusX (Nitish Singh)", desc: "GenAI, RAG, LangChain (Hindi)", url: "https://www.youtube.com/@campusx-official" },
+  { name: "DeepLearning.AI", desc: "Free short courses by Andrew Ng", url: "https://www.youtube.com/@Deeplearningai" },
+  { name: "Sam Witteveen", desc: "Practical RAG & agent builds", url: "https://www.youtube.com/@samwitteveenai" },
+  { name: "Dave Ebbelaar", desc: "AI engineering, multi-agent systems", url: "https://www.youtube.com/@daborated" },
+  { name: "Andrej Karpathy", desc: "Deep understanding of LLMs", url: "https://www.youtube.com/@AndrejKarpathy" },
+  { name: "James Briggs", desc: "Pinecone, vector DBs, RAG", url: "https://www.youtube.com/@jamesbriggs" },
+  { name: "Tech With Tim", desc: "FastAPI + Python projects", url: "https://www.youtube.com/@TechWithTim" },
+];
+
+const TOP_COURSES = [
+  { name: "DeepLearning.AI Short Courses (Free)", desc: "Pick courses matching each week", url: "https://www.deeplearning.ai/short-courses/" },
+  { name: "LangChain Academy (Free)", desc: "Structured LangGraph course", url: "https://academy.langchain.com/" },
+  { name: "Hugging Face NLP Course (Free)", desc: "Solid ML/NLP foundation", url: "https://huggingface.co/learn" },
+  { name: "Fast.ai Practical Deep Learning (Free)", desc: "Top-down approach to ML", url: "https://course.fast.ai/" },
+];
+
 const QUOTES = [
   // Indian legends
   { text: "Arise, awake, and stop not till the goal is reached.", author: "Swami Vivekananda" },
@@ -922,6 +1009,33 @@ export default function App() {
                         </div>
                       </div>
                     )}
+
+                    {/* Week resources */}
+                    {WEEK_RESOURCES[week.week] && (
+                      <div style={{ marginTop: 10, padding: "12px 14px", background: "#0a0c10", border: "1px solid #1a1f2e", borderRadius: 10 }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: "#8b5cf6", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8 }}>
+                          Learning Resources
+                        </div>
+                        {WEEK_RESOURCES[week.week].map((res) => (
+                          <a
+                            key={res.url}
+                            href={res.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: "flex", alignItems: "center", gap: 8,
+                              padding: "6px 4px", borderRadius: 6, fontSize: 12.5,
+                              color: "#94a3b8", textDecoration: "none", transition: "all 0.15s",
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = "#ffffff06"; e.currentTarget.style.color = "#c4b5fd"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#94a3b8"; }}
+                          >
+                            <span style={{ color: "#8b5cf6", fontSize: 10, flexShrink: 0 }}>&#x2197;</span>
+                            {res.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -929,19 +1043,67 @@ export default function App() {
           })
         )}
 
-        {/* Salary target */}
+        {/* ===== TOP YOUTUBE CHANNELS ===== */}
+        <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 14, padding: "18px 20px", marginBottom: 12, marginTop: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#ef4444", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 }}>
+            Top YouTube Channels &mdash; Subscribe to All
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
+            {TOP_CHANNELS.map((ch) => (
+              <a key={ch.name} href={ch.url} target="_blank" rel="noopener noreferrer" style={{
+                display: "block", padding: "10px 14px", background: "#0a0c10",
+                border: "1px solid #1a1f2e", borderRadius: 10, textDecoration: "none", transition: "all 0.2s",
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#ef444440"; e.currentTarget.style.background = "#ef444408"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1a1f2e"; e.currentTarget.style.background = "#0a0c10"; }}
+              >
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#e2e8f0" }}>{ch.name}</div>
+                <div style={{ fontSize: 11, color: "#64748b", marginTop: 3 }}>{ch.desc}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== TOP FREE COURSES ===== */}
+        <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 14, padding: "18px 20px", marginBottom: 20 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#10b981", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 14 }}>
+            Top Free Courses &mdash; Do These in Order
+          </div>
+          {TOP_COURSES.map((course, i) => (
+            <a key={course.url} href={course.url} target="_blank" rel="noopener noreferrer" style={{
+              display: "flex", alignItems: "center", gap: 12, padding: "10px 12px",
+              borderRadius: 8, textDecoration: "none", transition: "background 0.15s",
+            }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#ffffff06")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              <div style={{
+                width: 28, height: 28, borderRadius: 7, background: "rgba(16,185,129,0.1)",
+                border: "1px solid rgba(16,185,129,0.25)", display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: 13, fontWeight: 800, color: "#10b981", flexShrink: 0,
+              }}>
+                {i + 1}
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#cbd5e1" }}>{course.name}</div>
+                <div style={{ fontSize: 11, color: "#64748b", marginTop: 1 }}>{course.desc}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* ===== FOOTER ===== */}
         <div
           style={{
             textAlign: "center",
             padding: "28px 20px",
-            marginTop: 8,
             marginBottom: 40,
             background: "linear-gradient(135deg, rgba(245,158,11,0.06), rgba(6,182,212,0.06), rgba(236,72,153,0.06))",
             border: "1px solid #1e2330",
             borderRadius: 16,
           }}
         >
-          <div style={{ fontSize: 28, fontWeight: 800 }}>Full-Stack &rarr; AI Engineer</div>
+          <div style={{ fontSize: 28, fontWeight: 800 }}>Build. Ship. Get Hired.</div>
           <p style={{ color: "#64748b", fontSize: 13, marginTop: 6, maxWidth: 460, margin: "6px auto 0" }}>
             60 days. 3 deployed AI projects. Your full-stack foundation + GenAI = the most in-demand skill combination in 2026.
           </p>
