@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 
 // ===========================
-// ROADMAP DATA
+// ROADMAP DATA — 90-Day Plan
 // ===========================
 const ROADMAP = [
   {
@@ -11,155 +11,191 @@ const ROADMAP = [
     weeks: [
       {
         week: 1,
-        title: "Python Speedrun for JS Devs",
-        days: "Day 1\u20137",
-        hours: 10,
+        title: "Python Basics for JS Devs",
+        days: "Day 1–7",
+        hours: 7,
         tasks: [
           { id: "1-1-1", text: "Setup Python 3.12+, VS Code Python ext, uv package manager" },
           { id: "1-1-2", text: "Variables, types, f-strings, lists, dicts, tuples, sets" },
           { id: "1-1-3", text: "Conditionals, loops, list comprehensions" },
           { id: "1-1-4", text: "Functions, *args, **kwargs, imports, pip, virtual envs" },
-          { id: "1-1-5", text: "File I/O \u2014 read/write JSON, CSV files" },
-          { id: "1-1-6", text: "Error handling: try/except (same as JS try/catch)" },
-          { id: "1-1-7", text: "Mini project: Rewrite a Node.js utility in Python" },
         ],
       },
       {
         week: 2,
-        title: "FastAPI + LLM APIs",
-        days: "Day 8\u201314",
-        hours: 10,
+        title: "Python Deep Dive + Practice",
+        days: "Day 8–14",
+        hours: 7,
         tasks: [
-          { id: "1-2-1", text: "FastAPI basics: routes, path params, request body, Pydantic" },
-          { id: "1-2-2", text: "Async/await in Python (you already know this from JS)" },
-          { id: "1-2-3", text: "Build a CRUD REST API with FastAPI" },
-          { id: "1-2-4", text: "Get OpenAI + Anthropic API keys, make first LLM call" },
-          { id: "1-2-5", text: "Understand: system prompts, temperature, streaming, tokens" },
-          { id: "1-2-6", text: "Prompt engineering: few-shot, chain-of-thought, JSON mode" },
-          { id: "1-2-7", text: "Build: FastAPI endpoint that returns AI-generated content" },
+          { id: "1-2-1", text: "File I/O — read/write JSON, CSV files" },
+          { id: "1-2-2", text: "Error handling: try/except (same as JS try/catch)" },
+          { id: "1-2-3", text: "Classes & OOP basics in Python (similar to JS classes)" },
+          { id: "1-2-4", text: "Mini project: Rewrite a Node.js utility in Python" },
         ],
       },
       {
         week: 3,
-        title: "RAG + LangChain Fundamentals",
-        days: "Day 15\u201321",
-        hours: 12,
+        title: "FastAPI + Async Python",
+        days: "Day 15–21",
+        hours: 7,
         tasks: [
-          { id: "1-3-1", text: "Understand embeddings: text \u2192 vectors \u2192 similarity search" },
-          { id: "1-3-2", text: "OpenAI Embeddings API: text-embedding-3-small" },
-          { id: "1-3-3", text: "Setup ChromaDB locally, store & query embeddings" },
-          { id: "1-3-4", text: "Document loading: PDFs, text files with LangChain loaders" },
-          { id: "1-3-5", text: "Text chunking strategies & why chunk size matters" },
-          { id: "1-3-6", text: "Build full RAG pipeline: upload \u2192 chunk \u2192 embed \u2192 retrieve \u2192 answer" },
-          { id: "1-3-7", text: "LangChain core: chains, prompts, output parsers, memory" },
-          { id: "1-3-8", text: "Build: Chat with PDF app using LangChain + ChromaDB" },
+          { id: "1-3-1", text: "FastAPI basics: routes, path params, request body, Pydantic" },
+          { id: "1-3-2", text: "Async/await in Python (you already know this from JS)" },
+          { id: "1-3-3", text: "Build a CRUD REST API with FastAPI" },
+          { id: "1-3-4", text: "Add validation, error responses, and explore auto-generated docs" },
+        ],
+      },
+      {
+        week: 4,
+        title: "LLM APIs + Prompt Engineering",
+        days: "Day 22–28",
+        hours: 7,
+        tasks: [
+          { id: "1-4-1", text: "Get OpenAI + Anthropic API keys, make first LLM call" },
+          { id: "1-4-2", text: "Understand: system prompts, temperature, streaming, tokens" },
+          { id: "1-4-3", text: "Prompt engineering: few-shot, chain-of-thought, JSON mode" },
+          { id: "1-4-4", text: "Build: FastAPI endpoint that returns AI-generated content" },
+        ],
+      },
+      {
+        week: 5,
+        title: "Embeddings + ChromaDB",
+        days: "Day 29–35",
+        hours: 8,
+        tasks: [
+          { id: "1-5-1", text: "Understand embeddings: text → vectors → similarity search" },
+          { id: "1-5-2", text: "OpenAI Embeddings API: text-embedding-3-small" },
+          { id: "1-5-3", text: "Setup ChromaDB locally, store & query embeddings" },
+          { id: "1-5-4", text: "Document loading: PDFs, text files with LangChain loaders" },
+          { id: "1-5-5", text: "Text chunking strategies & why chunk size matters" },
         ],
       },
     ],
   },
   {
     phase: 2,
-    title: "Build & Ship AI Products",
+    title: "Build Core AI Skills",
     color: "#06b6d4",
     weeks: [
       {
-        week: 4,
-        title: "\ud83d\ude80 Project #1 \u2014 AI Document Assistant",
-        days: "Day 22\u201328",
-        hours: 14,
-        tasks: [
-          { id: "2-4-1", text: "FastAPI backend: file upload + RAG query + streaming endpoint" },
-          { id: "2-4-2", text: "Document processing pipeline: upload \u2192 chunk \u2192 embed \u2192 store" },
-          { id: "2-4-3", text: "React frontend: chat UI with file upload drag-and-drop" },
-          { id: "2-4-4", text: "Streaming response display (ChatGPT-like typing effect)" },
-          { id: "2-4-5", text: "Source citations \u2014 show which chunk answered the query" },
-          { id: "2-4-6", text: "Add JWT auth, error handling, loading states" },
-          { id: "2-4-7", text: "Deploy: backend on AWS/Railway, frontend on Vercel" },
-          { id: "2-4-8", text: "Write README with architecture diagram + screenshots + demo link" },
-        ],
-      },
-      {
-        week: 5,
-        title: "AI Agents + LangGraph",
-        days: "Day 29\u201335",
-        hours: 10,
-        tasks: [
-          { id: "2-5-1", text: "OpenAI function calling \u2014 let LLMs call your APIs" },
-          { id: "2-5-2", text: "Anthropic tool use \u2014 same concept, different syntax" },
-          { id: "2-5-3", text: "Build an agent: web search + database query + email tool" },
-          { id: "2-5-4", text: "ReAct pattern: Reason \u2192 Act \u2192 Observe \u2192 Repeat" },
-          { id: "2-5-5", text: "LangGraph fundamentals: graphs, nodes, edges, state" },
-          { id: "2-5-6", text: "Build agent graph: planner \u2192 executor \u2192 reviewer" },
-          { id: "2-5-7", text: "Conditional edges + human-in-the-loop patterns" },
-        ],
-      },
-      {
         week: 6,
-        title: "Advanced RAG + Vector DBs + MCP",
-        days: "Day 36\u201342",
-        hours: 12,
+        title: "RAG Pipeline + LangChain",
+        days: "Day 36–42",
+        hours: 8,
         tasks: [
-          { id: "2-6-1", text: "Move to Pinecone (production vector DB): indexing, namespaces, metadata" },
-          { id: "2-6-2", text: "Hybrid search: semantic + keyword (BM25)" },
-          { id: "2-6-3", text: "Re-ranking retrieved results for better accuracy" },
-          { id: "2-6-4", text: "Learn MCP: the standard for connecting LLMs to external tools" },
-          { id: "2-6-5", text: "Build an MCP server in Python exposing custom tools" },
-          { id: "2-6-6", text: "Connect AI to real services: Slack, Gmail, databases" },
-          { id: "2-6-7", text: "SSE streaming + WebSocket for real-time AI responses" },
+          { id: "2-6-1", text: "Build full RAG pipeline: upload → chunk → embed → retrieve → answer" },
+          { id: "2-6-2", text: "LangChain core: chains, prompts, output parsers, memory" },
+          { id: "2-6-3", text: "Build: Chat with PDF app using LangChain + ChromaDB" },
+          { id: "2-6-4", text: "Test & iterate: improve retrieval quality with different chunk sizes" },
         ],
       },
       {
         week: 7,
-        title: "\ud83d\ude80 Project #2 \u2014 Multi-Agent Support Bot",
-        days: "Day 43\u201349",
-        hours: 14,
+        title: "\ud83d\ude80 Project #1 — AI Document Assistant",
+        days: "Day 43–49",
+        hours: 10,
         tasks: [
-          { id: "2-7-1", text: "Design multi-agent graph: router \u2192 FAQ / order / escalation agents" },
-          { id: "2-7-2", text: "Each agent with own tools: RAG search, DB query, notifications" },
-          { id: "2-7-3", text: "Implement with LangGraph: cross-agent state management" },
-          { id: "2-7-4", text: "Chat widget frontend (embeddable component)" },
-          { id: "2-7-5", text: "Admin dashboard: conversation logs, agent analytics" },
-          { id: "2-7-6", text: "Dockerize the full app (docker-compose)" },
-          { id: "2-7-7", text: "Deploy on AWS EC2 + RDS, record 2-min demo video" },
-          { id: "2-7-8", text: "Write detailed README with system architecture diagram" },
+          { id: "2-7-1", text: "FastAPI backend: file upload + RAG query + streaming endpoint" },
+          { id: "2-7-2", text: "Document processing pipeline: upload → chunk → embed → store" },
+          { id: "2-7-3", text: "React frontend: chat UI with file upload drag-and-drop" },
+          { id: "2-7-4", text: "Streaming response display (ChatGPT-like typing effect)" },
+          { id: "2-7-5", text: "Source citations — show which chunk answered the query" },
+          { id: "2-7-6", text: "Add JWT auth, error handling, loading states" },
+          { id: "2-7-7", text: "Deploy: backend on AWS/Railway, frontend on Vercel" },
+          { id: "2-7-8", text: "Write README with architecture diagram + screenshots + demo link" },
+        ],
+      },
+      {
+        week: 8,
+        title: "AI Agents + Function Calling",
+        days: "Day 50–56",
+        hours: 8,
+        tasks: [
+          { id: "2-8-1", text: "OpenAI function calling — let LLMs call your APIs" },
+          { id: "2-8-2", text: "Anthropic tool use — same concept, different syntax" },
+          { id: "2-8-3", text: "Build an agent: web search + database query + email tool" },
+          { id: "2-8-4", text: "ReAct pattern: Reason → Act → Observe → Repeat" },
+        ],
+      },
+      {
+        week: 9,
+        title: "LangGraph + Agent Workflows",
+        days: "Day 57–63",
+        hours: 8,
+        tasks: [
+          { id: "2-9-1", text: "LangGraph fundamentals: graphs, nodes, edges, state" },
+          { id: "2-9-2", text: "Build agent graph: planner → executor → reviewer" },
+          { id: "2-9-3", text: "Conditional edges + human-in-the-loop patterns" },
+          { id: "2-9-4", text: "Practice: Build a multi-step research agent" },
+        ],
+      },
+      {
+        week: 10,
+        title: "Advanced RAG + Vector DBs + MCP",
+        days: "Day 64–70",
+        hours: 8,
+        tasks: [
+          { id: "2-10-1", text: "Move to Pinecone (production vector DB): indexing, namespaces, metadata" },
+          { id: "2-10-2", text: "Hybrid search: semantic + keyword (BM25)" },
+          { id: "2-10-3", text: "Re-ranking retrieved results for better accuracy" },
+          { id: "2-10-4", text: "Learn MCP: the standard for connecting LLMs to external tools" },
+          { id: "2-10-5", text: "Build an MCP server in Python exposing custom tools" },
+          { id: "2-10-6", text: "Connect AI to real services: Slack, Gmail, databases" },
+          { id: "2-10-7", text: "SSE streaming + WebSocket for real-time AI responses" },
         ],
       },
     ],
   },
   {
     phase: 3,
-    title: "Ship, Polish & Get Hired",
+    title: "Ship Projects & Get Hired",
     color: "#ec4899",
     weeks: [
       {
-        week: 8,
-        title: "\ud83d\ude80 Project #3 \u2014 Full AI SaaS MVP",
-        days: "Day 50\u201356",
-        hours: 14,
+        week: 11,
+        title: "\ud83d\ude80 Project #2 — Multi-Agent Support Bot",
+        days: "Day 71–77",
+        hours: 10,
         tasks: [
-          { id: "3-8-1", text: "Pick idea: AI code reviewer / meeting summarizer / content repurposer" },
-          { id: "3-8-2", text: "Architecture design + FastAPI backend AI pipeline" },
-          { id: "3-8-3", text: "Next.js frontend with auth + user dashboard" },
-          { id: "3-8-4", text: "Stripe integration for paid tier" },
-          { id: "3-8-5", text: "LLM observability: LangSmith/LangFuse for monitoring" },
-          { id: "3-8-6", text: "Landing page with demo (your React skills shine here)" },
-          { id: "3-8-7", text: "Deploy end-to-end, test, record demo video" },
+          { id: "3-11-1", text: "Design multi-agent graph: router → FAQ / order / escalation agents" },
+          { id: "3-11-2", text: "Each agent with own tools: RAG search, DB query, notifications" },
+          { id: "3-11-3", text: "Implement with LangGraph: cross-agent state management" },
+          { id: "3-11-4", text: "Chat widget frontend (embeddable component)" },
+          { id: "3-11-5", text: "Admin dashboard: conversation logs, agent analytics" },
+          { id: "3-11-6", text: "Dockerize the full app (docker-compose)" },
+          { id: "3-11-7", text: "Deploy on AWS EC2 + RDS, record 2-min demo video" },
+          { id: "3-11-8", text: "Write detailed README with system architecture diagram" },
         ],
       },
       {
-        week: 9,
-        title: "Portfolio, LinkedIn & Resume",
-        days: "Day 57\u201360",
-        hours: 8,
+        week: 12,
+        title: "\ud83d\ude80 Project #3 — Full AI SaaS MVP",
+        days: "Day 78–84",
+        hours: 10,
         tasks: [
-          { id: "3-9-1", text: "All 3 projects: clean READMEs, architecture diagrams, demo GIFs" },
-          { id: "3-9-2", text: "Pin AI projects on GitHub profile + portfolio README" },
-          { id: "3-9-3", text: "LinkedIn headline \u2192 'AI Application Engineer | Full-Stack + GenAI'" },
-          { id: "3-9-4", text: "Post 2\u20133 LinkedIn posts with project screenshots/demos" },
-          { id: "3-9-5", text: "Update resume: lead with AI projects, full-stack as foundation" },
-          { id: "3-9-6", text: "Write 1 technical blog post: 'How I Built a Multi-Agent AI System'" },
-          { id: "3-9-7", text: "Start applying: AI startups, YC companies, remote roles, freelance gigs" },
-          { id: "3-9-8", text: "Interview prep: system design for AI, explain projects, RAG architecture" },
+          { id: "3-12-1", text: "Pick idea: AI code reviewer / meeting summarizer / content repurposer" },
+          { id: "3-12-2", text: "Architecture design + FastAPI backend AI pipeline" },
+          { id: "3-12-3", text: "Next.js frontend with auth + user dashboard" },
+          { id: "3-12-4", text: "Stripe integration for paid tier" },
+          { id: "3-12-5", text: "LLM observability: LangSmith/LangFuse for monitoring" },
+          { id: "3-12-6", text: "Landing page with demo (your React skills shine here)" },
+          { id: "3-12-7", text: "Deploy end-to-end, test, record demo video" },
+        ],
+      },
+      {
+        week: 13,
+        title: "Portfolio, LinkedIn & Job Hunt",
+        days: "Day 85–90",
+        hours: 6,
+        tasks: [
+          { id: "3-13-1", text: "All 3 projects: clean READMEs, architecture diagrams, demo GIFs" },
+          { id: "3-13-2", text: "Pin AI projects on GitHub profile + portfolio README" },
+          { id: "3-13-3", text: "LinkedIn headline → 'AI Application Engineer | Full-Stack + GenAI'" },
+          { id: "3-13-4", text: "Post 2–3 LinkedIn posts with project screenshots/demos" },
+          { id: "3-13-5", text: "Update resume: lead with AI projects, full-stack as foundation" },
+          { id: "3-13-6", text: "Write 1 technical blog post: 'How I Built a Multi-Agent AI System'" },
+          { id: "3-13-7", text: "Start applying: AI startups, YC companies, remote roles, freelance gigs" },
+          { id: "3-13-8", text: "Interview prep: system design for AI, explain projects, RAG architecture" },
         ],
       },
     ],
@@ -193,82 +229,99 @@ const FOUNDATION_SKILLS = [
 
 const WEEK_SKILLS = {
   1: ["Python 3.12+", "uv", "pip"],
-  2: ["FastAPI", "Pydantic", "LLM APIs", "Prompt Engineering"],
-  3: ["Embeddings", "ChromaDB", "RAG", "LangChain"],
-  4: ["AI Product Design", "Streaming UIs", "JWT Auth"],
-  5: ["AI Agents", "Function Calling", "LangGraph", "ReAct"],
-  6: ["Pinecone", "Hybrid Search", "Re-ranking", "MCP"],
-  7: ["Multi-Agent Systems", "State Machines", "Docker Compose"],
-  8: ["AI SaaS Architecture", "LLM Ops", "Stripe Integration"],
-  9: ["Portfolio Strategy", "Technical Writing", "AI System Design"],
+  2: ["Python OOP", "File I/O"],
+  3: ["FastAPI", "Pydantic", "Async Python"],
+  4: ["LLM APIs", "Prompt Engineering"],
+  5: ["Embeddings", "ChromaDB", "Text Chunking"],
+  6: ["RAG", "LangChain"],
+  7: ["AI Product Design", "Streaming UIs", "JWT Auth"],
+  8: ["Function Calling", "AI Agents", "ReAct"],
+  9: ["LangGraph", "Agent Workflows"],
+  10: ["Pinecone", "Hybrid Search", "Re-ranking", "MCP"],
+  11: ["Multi-Agent Systems", "State Machines", "Docker Compose"],
+  12: ["AI SaaS Architecture", "LLM Ops", "Stripe Integration"],
+  13: ["Portfolio Strategy", "Technical Writing", "AI System Design"],
 };
 
 const WEEK_RESOURCES = {
   1: [
     { label: "Python Official Tutorial", url: "https://docs.python.org/3/tutorial/" },
-    { label: "Corey Schafer \u2014 Python Basics Playlist", url: "https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" },
+    { label: "Corey Schafer — Python Basics Playlist", url: "https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" },
     { label: "uv Package Manager Docs", url: "https://docs.astral.sh/uv/" },
-    { label: "Krish Naik \u2014 Python for Data Science (Hindi)", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVNUL99R4bDlVYsncUNvwUBB" },
-    { label: "Tech With Tim \u2014 Python Beginner Tutorial", url: "https://www.youtube.com/playlist?list=PLzMcBGfZo4-mFu00qxl0a67RhjjZj3jXm" },
+    { label: "Krish Naik — Python for Data Science (Hindi)", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVNUL99R4bDlVYsncUNvwUBB" },
+    { label: "Tech With Tim — Python Beginner Tutorial", url: "https://www.youtube.com/playlist?list=PLzMcBGfZo4-mFu00qxl0a67RhjjZj3jXm" },
   ],
   2: [
-    { label: "FastAPI Official Tutorial", url: "https://fastapi.tiangolo.com/tutorial/" },
-    { label: "OpenAI API Docs", url: "https://platform.openai.com/docs" },
-    { label: "Anthropic Claude Docs", url: "https://docs.anthropic.com" },
-    { label: "DeepLearning.AI \u2014 Prompt Engineering for Devs", url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/" },
-    { label: "Tech With Tim \u2014 FastAPI Tutorial", url: "https://www.youtube.com/watch?v=cbASjoZZGIw" },
-    { label: "Krish Naik \u2014 Complete GenAI Course", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVORE4VF7WQ_fAl0L1Gljtar" },
+    { label: "Python Official Tutorial — Classes", url: "https://docs.python.org/3/tutorial/classes.html" },
+    { label: "Corey Schafer — Python OOP Playlist", url: "https://www.youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc" },
+    { label: "Real Python — File I/O Guide", url: "https://realpython.com/read-write-files-python/" },
+    { label: "Tech With Tim — Python Projects for Beginners", url: "https://www.youtube.com/playlist?list=PLzMcBGfZo4-nhWva-6OVh1yKWHBs4o_tv" },
   ],
   3: [
-    { label: "LangChain Docs \u2014 Tutorials", url: "https://python.langchain.com/docs/tutorials/" },
-    { label: "ChromaDB Docs", url: "https://docs.trychroma.com/" },
-    { label: "DeepLearning.AI \u2014 LangChain for LLM Apps", url: "https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/" },
-    { label: "DeepLearning.AI \u2014 Building & Evaluating Advanced RAG", url: "https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/" },
-    { label: "James Briggs \u2014 RAG from Scratch", url: "https://www.youtube.com/watch?v=sVcwVQRHIc8" },
-    { label: "CampusX \u2014 RAG Tutorial (Hindi)", url: "https://www.youtube.com/watch?v=wBhY-7B2jdY" },
+    { label: "FastAPI Official Tutorial", url: "https://fastapi.tiangolo.com/tutorial/" },
+    { label: "Tech With Tim — FastAPI Tutorial", url: "https://www.youtube.com/watch?v=cbASjoZZGIw" },
+    { label: "Pydantic Docs", url: "https://docs.pydantic.dev/latest/" },
   ],
   4: [
-    { label: "FastAPI \u2014 File Upload Docs", url: "https://fastapi.tiangolo.com/tutorial/request-files/" },
-    { label: "Vercel AI SDK", url: "https://sdk.vercel.ai/docs" },
-    { label: "Sam Witteveen \u2014 Build a RAG App", url: "https://www.youtube.com/watch?v=tcqEUSNCn8I" },
-    { label: "Railway Deployment Guide", url: "https://docs.railway.app/" },
-    { label: "Dave Ebbelaar \u2014 Full Stack AI App", url: "https://www.youtube.com/watch?v=kXdbKKpOaas" },
+    { label: "OpenAI API Docs", url: "https://platform.openai.com/docs" },
+    { label: "Anthropic Claude Docs", url: "https://docs.anthropic.com" },
+    { label: "DeepLearning.AI — Prompt Engineering for Devs", url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/" },
+    { label: "Krish Naik — Complete GenAI Course", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVORE4VF7WQ_fAl0L1Gljtar" },
   ],
   5: [
-    { label: "LangGraph Official Docs", url: "https://langchain-ai.github.io/langgraph/" },
-    { label: "LangChain Academy \u2014 LangGraph Course (Free)", url: "https://academy.langchain.com/" },
-    { label: "DeepLearning.AI \u2014 AI Agents in LangGraph", url: "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/" },
-    { label: "OpenAI \u2014 Function Calling Guide", url: "https://platform.openai.com/docs/guides/function-calling" },
-    { label: "Anthropic \u2014 Tool Use Guide", url: "https://docs.anthropic.com/en/docs/build-with-claude/tool-use" },
-    { label: "CampusX \u2014 AI Agents Explained (Hindi)", url: "https://www.youtube.com/watch?v=dN1a5K9BL1s" },
+    { label: "ChromaDB Docs", url: "https://docs.trychroma.com/" },
+    { label: "DeepLearning.AI — Building & Evaluating Advanced RAG", url: "https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/" },
+    { label: "James Briggs — RAG from Scratch", url: "https://www.youtube.com/watch?v=sVcwVQRHIc8" },
+    { label: "CampusX — RAG Tutorial (Hindi)", url: "https://www.youtube.com/watch?v=wBhY-7B2jdY" },
   ],
   6: [
-    { label: "Pinecone Docs & Learning Center", url: "https://docs.pinecone.io/" },
-    { label: "DeepLearning.AI \u2014 Vector Databases", url: "https://www.deeplearning.ai/short-courses/building-applications-vector-databases/" },
-    { label: "MCP Official Specification", url: "https://modelcontextprotocol.io/" },
-    { label: "Anthropic \u2014 MCP Docs", url: "https://docs.anthropic.com/en/docs/agents-and-tools/mcp" },
-    { label: "James Briggs \u2014 Pinecone + Hybrid Search", url: "https://www.youtube.com/watch?v=lRm0GRgRoF8" },
-    { label: "Krish Naik \u2014 Advanced RAG Techniques", url: "https://www.youtube.com/watch?v=T-D1OfcDW1M" },
+    { label: "LangChain Docs — Tutorials", url: "https://python.langchain.com/docs/tutorials/" },
+    { label: "DeepLearning.AI — LangChain for LLM Apps", url: "https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/" },
+    { label: "Sam Witteveen — Build a RAG App", url: "https://www.youtube.com/watch?v=tcqEUSNCn8I" },
   ],
   7: [
-    { label: "LangGraph \u2014 Multi-Agent Tutorial", url: "https://langchain-ai.github.io/langgraph/tutorials/multi_agent/" },
-    { label: "Docker Compose Docs", url: "https://docs.docker.com/compose/" },
-    { label: "Dave Ebbelaar \u2014 Multi-Agent AI System", url: "https://www.youtube.com/watch?v=a3MJKgOvZHo" },
-    { label: "DeepLearning.AI \u2014 Multi AI Agent Systems with CrewAI", url: "https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/" },
+    { label: "FastAPI — File Upload Docs", url: "https://fastapi.tiangolo.com/tutorial/request-files/" },
+    { label: "Vercel AI SDK", url: "https://sdk.vercel.ai/docs" },
+    { label: "Railway Deployment Guide", url: "https://docs.railway.app/" },
+    { label: "Dave Ebbelaar — Full Stack AI App", url: "https://www.youtube.com/watch?v=kXdbKKpOaas" },
   ],
   8: [
-    { label: "LangSmith Docs \u2014 LLM Observability", url: "https://docs.smith.langchain.com/" },
-    { label: "LangFuse Docs (Open Source)", url: "https://langfuse.com/docs" },
-    { label: "Stripe + Next.js Guide", url: "https://stripe.com/docs/payments/quickstart" },
-    { label: "DeepLearning.AI \u2014 LLMOps", url: "https://www.deeplearning.ai/short-courses/llmops/" },
-    { label: "Vercel \u2014 Next.js Auth Tutorial", url: "https://nextjs.org/learn/dashboard-app" },
+    { label: "OpenAI — Function Calling Guide", url: "https://platform.openai.com/docs/guides/function-calling" },
+    { label: "Anthropic — Tool Use Guide", url: "https://docs.anthropic.com/en/docs/build-with-claude/tool-use" },
+    { label: "DeepLearning.AI — AI Agents in LangGraph", url: "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/" },
+    { label: "CampusX — AI Agents Explained (Hindi)", url: "https://www.youtube.com/watch?v=dN1a5K9BL1s" },
   ],
   9: [
+    { label: "LangGraph Official Docs", url: "https://langchain-ai.github.io/langgraph/" },
+    { label: "LangChain Academy — LangGraph Course (Free)", url: "https://academy.langchain.com/" },
+    { label: "DeepLearning.AI — Multi AI Agent Systems with CrewAI", url: "https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/" },
+  ],
+  10: [
+    { label: "Pinecone Docs & Learning Center", url: "https://docs.pinecone.io/" },
+    { label: "DeepLearning.AI — Vector Databases", url: "https://www.deeplearning.ai/short-courses/building-applications-vector-databases/" },
+    { label: "MCP Official Specification", url: "https://modelcontextprotocol.io/" },
+    { label: "Anthropic — MCP Docs", url: "https://docs.anthropic.com/en/docs/agents-and-tools/mcp" },
+    { label: "James Briggs — Pinecone + Hybrid Search", url: "https://www.youtube.com/watch?v=lRm0GRgRoF8" },
+    { label: "Krish Naik — Advanced RAG Techniques", url: "https://www.youtube.com/watch?v=T-D1OfcDW1M" },
+  ],
+  11: [
+    { label: "LangGraph — Multi-Agent Tutorial", url: "https://langchain-ai.github.io/langgraph/tutorials/multi_agent/" },
+    { label: "Docker Compose Docs", url: "https://docs.docker.com/compose/" },
+    { label: "Dave Ebbelaar — Multi-Agent AI System", url: "https://www.youtube.com/watch?v=a3MJKgOvZHo" },
+  ],
+  12: [
+    { label: "LangSmith Docs — LLM Observability", url: "https://docs.smith.langchain.com/" },
+    { label: "LangFuse Docs (Open Source)", url: "https://langfuse.com/docs" },
+    { label: "Stripe + Next.js Guide", url: "https://stripe.com/docs/payments/quickstart" },
+    { label: "DeepLearning.AI — LLMOps", url: "https://www.deeplearning.ai/short-courses/llmops/" },
+    { label: "Vercel — Next.js Auth Tutorial", url: "https://nextjs.org/learn/dashboard-app" },
+  ],
+  13: [
     { label: "Awesome GitHub Profile READMEs", url: "https://github.com/abhisheknaiidu/awesome-github-profile-readme" },
-    { label: "levels.fyi \u2014 AI Engineer Roles", url: "https://www.levels.fyi/" },
-    { label: "Hashnode \u2014 Start a Dev Blog (Free)", url: "https://hashnode.com/" },
+    { label: "levels.fyi — AI Engineer Roles", url: "https://www.levels.fyi/" },
+    { label: "Hashnode — Start a Dev Blog (Free)", url: "https://hashnode.com/" },
     { label: "AI Engineer Job Board", url: "https://aijobs.net/" },
-    { label: "DeepLearning.AI \u2014 How to Build Your Career in AI (Free)", url: "https://www.deeplearning.ai/resources/how-to-build-a-career-in-ai/" },
+    { label: "DeepLearning.AI — How to Build Your Career in AI (Free)", url: "https://www.deeplearning.ai/resources/how-to-build-a-career-in-ai/" },
   ],
 };
 
@@ -291,17 +344,201 @@ const TOP_COURSES = [
 ];
 
 const QUOTES = [
-  // Indian legends
+  // Ramayana — Lord Rama
+  { text: "A person should not be too honest. Straight trees are cut first and honest people are screwed first.", author: "Ramayana — Chanakya's wisdom on Rama's journey" },
+  { text: "There is no greater virtue than self-discipline. Through discipline, anything can be achieved.", author: "Lord Rama — Ramayana" },
+  { text: "One should always follow the path of dharma, even when it is the most difficult road to walk.", author: "Lord Rama — Ramayana" },
+  { text: "A warrior does not give up what he has set out to do, no matter how difficult it becomes.", author: "Lord Rama — Ramayana" },
+  { text: "Even the mightiest ocean is made of tiny drops of water. Every small effort counts.", author: "Lord Rama — Ramayana" },
+  { text: "Patience is the greatest weapon of a warrior. Time rewards those who persist.", author: "Lord Rama — Ramayana" },
+  { text: "He who controls his mind, controls the world. Master yourself before you master anything else.", author: "Lord Rama — Ramayana" },
+  { text: "Do not dwell on the past or worry about the future. Focus your mind on the present task.", author: "Lord Rama — Ramayana" },
+  // Ramayana — Hanuman
+  { text: "When you don\u2019t know how powerful you are, sometimes you need someone to remind you of your own strength.", author: "Hanuman — Ramayana" },
+  { text: "There is no obstacle that cannot be overcome with devotion, courage, and relentless action.", author: "Hanuman — Ramayana" },
+  { text: "The one who has conquered fear has conquered everything. Fear is the only enemy.", author: "Hanuman — Ramayana" },
+  { text: "Mountains, oceans, demons — nothing can stop the one who moves with purpose and faith.", author: "Hanuman — Ramayana" },
+  { text: "Your true strength reveals itself only when the challenge seems impossible.", author: "Hanuman — Ramayana" },
+  { text: "I searched the entire world and found that all the power was within me all along.", author: "Hanuman — Ramayana" },
+  { text: "Fly. The sky has no limits, and neither do you.", author: "Jambavan to Hanuman — Ramayana" },
+  { text: "Courage is not the absence of fear. It is the decision that your mission matters more than your fear.", author: "Hanuman — Ramayana" },
+  // Ramayana — Lakshmana
+  { text: "Stand beside those you believe in. Loyalty to your mission is the mark of a true warrior.", author: "Lakshmana — Ramayana" },
+  { text: "Comfort is the enemy of greatness. Choose the harder path — that is where glory awaits.", author: "Lakshmana — Ramayana" },
+  { text: "A brother, a friend, a companion in battle — be the person others can count on in the darkest hour.", author: "Lakshmana — Ramayana" },
+  // Ramayana — Sita
+  { text: "Strength is not just physical. The strongest person is the one who endures with grace and never loses hope.", author: "Sita — Ramayana" },
+  { text: "No fire can burn the one whose heart is pure and whose resolve is unshakeable.", author: "Sita — Ramayana" },
+  { text: "True power lies in patience, dignity, and the unwavering belief that justice will prevail.", author: "Sita — Ramayana" },
+  // Ramayana — Vibhishana & Wisdom
+  { text: "It takes more courage to stand for what is right when everyone around you has chosen wrong.", author: "Vibhishana — Ramayana" },
+  { text: "Even in enemy territory, truth finds its warrior. Be that warrior.", author: "Vibhishana — Ramayana" },
+  // Ramayana — Valmiki & Universal Wisdom
+  { text: "The bridge to Lanka was built one stone at a time. Great achievements are built one task at a time.", author: "Valmiki — Ramayana" },
+  { text: "An army of monkeys built a bridge across the ocean. Never underestimate the power of a team with purpose.", author: "Ramayana — Ram Setu" },
+  { text: "Fourteen years of exile became the journey that built a legend. Your struggle is building your story.", author: "Ramayana Wisdom" },
+  { text: "Ravana had ten heads of knowledge but lost to Rama\u2019s one heart of dharma. Character defeats talent.", author: "Ramayana Wisdom" },
+  { text: "The arrow that must fly far is first pulled back. Your setbacks are preparing you for something greater.", author: "Ramayana Wisdom" },
+  { text: "Like Rama\u2019s army, build your skills one by one. When the time comes, even the ocean will make way.", author: "Ramayana Wisdom" },
+  // Bhagavad Gita (bonus — deeply motivational)
+  { text: "You have the right to perform your actions, but you are not entitled to the fruits of the actions.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "Whenever dharma declines, I manifest myself. In every age, I come to restore what is right.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "The mind is restless, but through practice and detachment, it can be controlled.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "No one who does good work will ever come to a bad end, either here or in the world to come.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "Set your heart upon your work, but never on its reward. Work with focus, not anxiety.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "There is nothing in this world as purifying as knowledge. The one who seeks it finds it in time.", author: "Lord Krishna — Bhagavad Gita" },
+  { text: "Reshape yourself through the power of your will. Do not let yourself be degraded by self-doubt.", author: "Lord Krishna — Bhagavad Gita" },
+  // Chhatrapati Shivaji Maharaj
+  { text: "Even if there are obstacles, even if there are problems, you should never stop. Pursue your goal with all your heart.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "Do not think of the enemy as weak. Overconfidence is the greatest enemy of success.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "Self-confidence provides the foundation for bravery. Believe in yourself first.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "Freedom is a boon, which everyone has the right to receive.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "Of all the rights of women, the greatest is to be a mother.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "When you are enthusiastic, the mountain also looks like a small stone.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "Never bend your head. Always hold it high. Look the world straight in the eye.", author: "Chhatrapati Shivaji Maharaj" },
+  { text: "A kingdom built by one man\u2019s vision and a handful of loyal warriors — proof that resources don\u2019t matter, resolve does.", author: "Chhatrapati Shivaji Maharaj" },
+  // Chola Dynasty — Rajendra Chola & Chola Wisdom
+  { text: "The Cholas conquered the seas when the world thought oceans were boundaries. Your limits exist only in your mind.", author: "Chola Empire Wisdom" },
+  { text: "Rajendra Chola sent his navy across the Indian Ocean. When everyone says it cannot be done, be the one who does it.", author: "Rajendra Chola I" },
+  { text: "Build an empire of knowledge so vast that the world has no choice but to take notice.", author: "Chola Empire Wisdom" },
+  { text: "The Cholas didn\u2019t just rule land — they mastered the seas. Go where no one in your field has gone before.", author: "Chola Empire Wisdom" },
+  { text: "A thousand temples still stand after a thousand years. Build your skills to last, not just to impress.", author: "Chola Architecture Wisdom" },
+  // Chanakya / Kautilya
+  { text: "A man is born alone and dies alone. He experiences the good and bad consequences of his karma alone.", author: "Chanakya" },
+  { text: "Education is the best friend. An educated person is respected everywhere.", author: "Chanakya" },
+  { text: "The world\u2019s biggest power is the youth and beauty of a woman and the knowledge of a learned man.", author: "Chanakya" },
+  { text: "Before you start some work, always ask yourself three questions — Why am I doing it, What might the results be, and Will I be successful.", author: "Chanakya" },
+  { text: "Once you start working on something, don\u2019t be afraid of failure and don\u2019t abandon it.", author: "Chanakya" },
+  { text: "A person should not be too honest. Straight trees are cut first.", author: "Chanakya" },
+  { text: "Learn from the mistakes of others. You can\u2019t live long enough to make them all yourselves.", author: "Chanakya" },
+  { text: "The fragrance of flowers spreads only in the direction of the wind. But the goodness of a person spreads in all directions.", author: "Chanakya" },
+  // Maharana Pratap
+  { text: "He who has courage and a clear conscience shall never fear anything.", author: "Maharana Pratap" },
+  { text: "I will take back my homeland. The day I die trying is the day I truly win.", author: "Maharana Pratap" },
+  { text: "Maharana Pratap ate grass bread in the jungle but never surrendered. Comfort is temporary, legacy is forever.", author: "Maharana Pratap\u2019s Legacy" },
+  { text: "Empires may fall, but the spirit of a warrior who never surrenders lives on for centuries.", author: "Maharana Pratap\u2019s Legacy" },
+  // Rani Lakshmibai
+  { text: "I shall not surrender my Jhansi.", author: "Rani Lakshmibai" },
+  { text: "We fight for independence. In the battlefield of life, the brave do not retreat.", author: "Rani Lakshmibai" },
+  { text: "If defeated, we shall die fighting. If victorious, we shall live with honor. Either way, we move forward.", author: "Rani Lakshmibai" },
+  // Subhas Chandra Bose
+  { text: "Give me blood, and I shall give you freedom!", author: "Subhas Chandra Bose" },
+  { text: "One individual may die for an idea, but that idea will, after his death, incarnate itself in a thousand lives.", author: "Subhas Chandra Bose" },
+  { text: "It is blood alone that can pay the price of freedom. Dare to be free, dare to go as far as your thought leads.", author: "Subhas Chandra Bose" },
+  { text: "Reality is, after all, too big for our frail understanding to fully comprehend. But we must try.", author: "Subhas Chandra Bose" },
+  // Sardar Vallabhbhai Patel
+  { text: "Every Indian should now forget that he is a Rajput, a Sikh, or a Jat. He must remember that he is an Indian.", author: "Sardar Vallabhbhai Patel" },
+  { text: "Manpower without unity is not a strength unless it is harmonized and united properly.", author: "Sardar Vallabhbhai Patel" },
+  { text: "Faith is of no evil in the absence of strength. Faith and strength, both are essential to accomplish any great work.", author: "Sardar Vallabhbhai Patel" },
+  // Bhagat Singh
+  { text: "They may kill me, but they cannot kill my ideas. They can crush my body, but they will not be able to crush my spirit.", author: "Bhagat Singh" },
+  { text: "Revolution is an inalienable right of mankind. Freedom is an imperishable birthright of all.", author: "Bhagat Singh" },
+  { text: "Lovers, lunatics, and poets are made of the same stuff.", author: "Bhagat Singh" },
+  // Guru Gobind Singh
+  { text: "When all other means have failed, it is righteous to draw the sword.", author: "Guru Gobind Singh" },
+  { text: "I shall make sparrows fight hawks and one man fight a legion. Only then shall I be called Gobind Singh.", author: "Guru Gobind Singh" },
+  { text: "Recognize the whole human race as one. The same God is the creator and nourisher of all.", author: "Guru Gobind Singh" },
+  // Rabindranath Tagore
+  { text: "You can\u2019t cross the sea merely by standing and staring at the water.", author: "Rabindranath Tagore" },
+  { text: "If you cry because the sun has gone out of your life, your tears will prevent you from seeing the stars.", author: "Rabindranath Tagore" },
+  { text: "Where the mind is without fear and the head is held high, where knowledge is free.", author: "Rabindranath Tagore" },
+  { text: "The butterfly counts not months but moments, and has time enough.", author: "Rabindranath Tagore" },
+  // Thiruvalluvar — Tamil Wisdom (Thirukkural)
+  { text: "Learning is the true imperishable wealth. All other things are not wealth.", author: "Thiruvalluvar — Thirukkural" },
+  { text: "Whatever may be the obstacles, the wise will find the means to accomplish their purpose.", author: "Thiruvalluvar — Thirukkural" },
+  { text: "Think before you act. To act and then think is folly.", author: "Thiruvalluvar — Thirukkural" },
+  { text: "The learned are said to have eyes, but the unlearned have only two sores on their face.", author: "Thiruvalluvar — Thirukkural" },
+  { text: "Perseverance will accomplish all things. Perseverance alone conquers all difficulties.", author: "Thiruvalluvar — Thirukkural" },
+  // Ashoka the Great
+  { text: "A man who was the fiercest warrior became the gentlest ruler. Transformation is always possible.", author: "Ashoka the Great" },
+  { text: "It is forbidden to decry other sects; the true basis of honor is understanding.", author: "Ashoka the Great" },
+  { text: "Conquest by dharma is the greatest conquest. Conquer yourself through knowledge.", author: "Ashoka the Great" },
+  // Alluri Sitarama Raju
+  { text: "I will fight till my last breath for the freedom of my people. The jungle is my fortress, my will is my weapon.", author: "Alluri Sitarama Raju" },
+  { text: "A 24-year-old shook the British Empire from the forests of Andhra. Age is never an excuse.", author: "Alluri Sitarama Raju\u2019s Legacy" },
+  // Swami Vivekananda
   { text: "Arise, awake, and stop not till the goal is reached.", author: "Swami Vivekananda" },
   { text: "All the powers in the universe are already ours. It is we who have put our hands before our eyes and cry that it is dark.", author: "Swami Vivekananda" },
   { text: "You cannot believe in God until you believe in yourself.", author: "Swami Vivekananda" },
-  { text: "Take up one idea. Make that one idea your life \u2014 think of it, dream of it, live on that idea.", author: "Swami Vivekananda" },
+  { text: "Take up one idea. Make that one idea your life — think of it, dream of it, live on that idea.", author: "Swami Vivekananda" },
+  { text: "In a conflict between the heart and the brain, follow your heart.", author: "Swami Vivekananda" },
+  { text: "The greatest sin is to think yourself weak.", author: "Swami Vivekananda" },
+  { text: "Strength is life, weakness is death. Strength is the medicine for the world\u2019s sickness.", author: "Swami Vivekananda" },
+  { text: "Talk to yourself once in a day. Otherwise you may miss meeting an excellent person in this world.", author: "Swami Vivekananda" },
+  { text: "Be not afraid of anything. You will do marvelous work. It is fearlessness that brings heaven even in a moment.", author: "Swami Vivekananda" },
+  // Srinivasa Ramanujan
   { text: "An equation for me has no meaning unless it expresses a thought of God.", author: "Srinivasa Ramanujan" },
+  { text: "A man with no formal training rewrote mathematics. Your background does not define your potential.", author: "Srinivasa Ramanujan\u2019s Legacy" },
+  { text: "I have not trodden through the conventional regular course. But I have struck out a new path for myself.", author: "Srinivasa Ramanujan" },
+  { text: "While asleep, I had an unusual experience. There was a red screen formed by flowing blood. I was observing it. Suddenly a hand began to write on the screen. I became all attention. The hand wrote a number of results in elliptic integrals.", author: "Srinivasa Ramanujan" },
+  // C.V. Raman — Nobel Prize in Physics
+  { text: "I am the master of my failure. If I never fail, how will I ever learn?", author: "C.V. Raman" },
+  { text: "Ask the right questions, and nature will open the doors to her secrets.", author: "C.V. Raman" },
+  { text: "Treat me right and you will see the light. Treat me wrong and I will be gone.", author: "C.V. Raman" },
+  { text: "You can\u2019t always choose what happens to you, but you can choose how you respond. Success is a choice.", author: "C.V. Raman" },
+  { text: "The essence of science is independent thinking, hard work, and not equipment.", author: "C.V. Raman" },
+  // Homi J. Bhabha — Father of Indian Nuclear Program
+  { text: "There is no large and difficult task that can\u2019t be divided into little easy tasks.", author: "Homi J. Bhabha" },
+  { text: "If we are to remain free, we must have our own big science. No nation can afford to be dependent on others.", author: "Homi J. Bhabha" },
+  { text: "A country which does not develop its technology is doomed to remain backward forever.", author: "Homi J. Bhabha" },
+  // Vikram Sarabhai — Father of Indian Space Program
+  { text: "We do not have the fantasy of competing with economically advanced nations. But we are convinced that if we are to play a meaningful role, we must be second to none in the application of advanced technologies.", author: "Vikram Sarabhai" },
+  { text: "There are some who question the relevance of space activities in a developing nation. To us, there is no ambiguity of purpose.", author: "Vikram Sarabhai" },
+  { text: "A dream is not that which you see while sleeping. It is something that does not let you sleep.", author: "Vikram Sarabhai" },
+  // M. Visvesvaraya — Engineer, Bharat Ratna
+  { text: "I can work but I cannot be idle. Idleness is the worst form of waste.", author: "M. Visvesvaraya" },
+  { text: "Industrialize or perish. A nation\u2019s strength lies in what it builds, not what it borrows.", author: "M. Visvesvaraya" },
+  { text: "Work before you talk. Deliver before you promise. Perform before you preach.", author: "M. Visvesvaraya" },
+  // Jagadish Chandra Bose — Physicist, Biologist, Polymath
+  { text: "In my investigations I was unconsciously led into the border region of physics and physiology. To my amazement, I found boundary lines vanishing.", author: "Jagadish Chandra Bose" },
+  { text: "The true laboratory is the mind, where behind illusions we uncover the laws of truth.", author: "Jagadish Chandra Bose" },
+  { text: "He proved plants have feelings before the world was ready to listen. Do the work — the world will catch up.", author: "Jagadish Chandra Bose\u2019s Legacy" },
+  // Satyendra Nath Bose — Bose-Einstein Statistics
+  { text: "A single paper sent to Einstein changed physics forever. Never underestimate what one focused effort can create.", author: "Satyendra Nath Bose\u2019s Legacy" },
+  { text: "I have no quarrel with the establishment. I simply pursue what I find interesting.", author: "Satyendra Nath Bose" },
+  // Subrahmanyam Chandrasekhar — Nobel Prize in Astrophysics
+  { text: "I should like to feel that there is a certain esthetic quality in the effort itself.", author: "Subrahmanyam Chandrasekhar" },
+  { text: "A 19-year-old on a boat voyage calculated the limit of a star\u2019s life. Your next breakthrough could come from anywhere.", author: "Subrahmanyam Chandrasekhar\u2019s Legacy" },
+  { text: "The pursuit of science has often been compared to scaling a mountain. The simile is apt — both demand endurance.", author: "Subrahmanyam Chandrasekhar" },
+  // Aryabhata — Ancient Mathematician & Astronomer
+  { text: "In 499 AD, Aryabhata calculated the Earth\u2019s rotation and the value of pi. India was engineering breakthroughs before the world had universities.", author: "Aryabhata\u2019s Legacy" },
+  { text: "Just as a man in a boat moving forward sees the stationary objects on the bank as moving backward, so are the stars.", author: "Aryabhata" },
+  // Brahmagupta — The Man Who Gave Us Zero
+  { text: "The one who invented zero showed the world that nothing can be everything. Start from zero — it is the most powerful number.", author: "Brahmagupta\u2019s Legacy" },
+  { text: "A debt minus zero is a debt. A fortune minus zero is a fortune. Zero minus zero is zero.", author: "Brahmagupta" },
+  // Shakuntala Devi — The Human Computer
+  { text: "Education is not just about going to school. It is about widening your knowledge and absorbing the truth about life.", author: "Shakuntala Devi" },
+  { text: "Nobody challenges me. I challenge myself.", author: "Shakuntala Devi" },
+  { text: "She beat a computer in mental math. Your brain is the most powerful machine ever created — train it.", author: "Shakuntala Devi\u2019s Legacy" },
+  // Kalpana Chawla — Astronaut
+  { text: "The path from dreams to success does exist. May you have the vision to find it, the courage to get on to it.", author: "Kalpana Chawla" },
+  { text: "You are just your intelligence. From a small town in Haryana to NASA — geography is not destiny.", author: "Kalpana Chawla\u2019s Legacy" },
+  { text: "Do something you really love and don\u2019t let anyone tell you that you aren\u2019t good enough.", author: "Kalpana Chawla" },
+  // Tessy Thomas — Missile Woman of India
+  { text: "When you are focused on your work, the world will respect you. Gender becomes irrelevant.", author: "Tessy Thomas" },
+  { text: "Technology knows no gender. Passion and persistence are the only requirements.", author: "Tessy Thomas" },
+  // Satish Dhawan — ISRO Chairman
+  { text: "When a rocket failed, Satish Dhawan took the blame. When it succeeded, he gave the credit to his team. That is leadership.", author: "Satish Dhawan\u2019s Legacy" },
+  { text: "Failures are stepping stones. Every failed rocket taught ISRO how to reach Mars.", author: "Satish Dhawan\u2019s Legacy" },
+  // Har Gobind Khorana — Nobel Prize in Medicine
+  { text: "From a village with no electricity in Punjab to the Nobel Prize. The only limit is the one you accept.", author: "Har Gobind Khorana\u2019s Legacy" },
+  // Venkatraman Ramakrishnan — Nobel Prize in Chemistry
+  { text: "Good science comes from curiosity and persistence, not from expensive equipment.", author: "Venkatraman Ramakrishnan" },
+  // Srinivasa Ramanujan, C.V. Raman & Indian Science Wisdom
+  { text: "India gave the world zero, the decimal system, surgery, and steel. You carry the DNA of innovation. Act like it.", author: "Indian Science Legacy" },
+  { text: "From Aryabhata\u2019s astronomy to Chandrayaan\u2019s moon landing — India\u2019s journey proves consistency beats resources.", author: "Indian Science Legacy" },
+  { text: "ISRO reached Mars in its first attempt, spending less than the budget of a Hollywood movie. Frugality and brilliance are in your blood.", author: "Indian Science Legacy" },
+  // A.P.J. Abdul Kalam
   { text: "Dream, dream, dream. Dreams transform into thoughts and thoughts result in action.", author: "A.P.J. Abdul Kalam" },
   { text: "You have to dream before your dreams can come true.", author: "A.P.J. Abdul Kalam" },
   { text: "If you want to shine like a sun, first burn like a sun.", author: "A.P.J. Abdul Kalam" },
   { text: "All of us do not have equal talent. But all of us have an equal opportunity to develop our talents.", author: "A.P.J. Abdul Kalam" },
   { text: "Don\u2019t take rest after your first victory because if you fail in second, more lips are waiting to say that your first victory was just luck.", author: "A.P.J. Abdul Kalam" },
+  { text: "If a country is to be corruption-free, I strongly feel there are three key members who can make it happen — the father, the mother, and the teacher.", author: "A.P.J. Abdul Kalam" },
+  { text: "Success is when your signature changes to autograph.", author: "A.P.J. Abdul Kalam" },
+  { text: "The best brains of the nation may be found on the last benches of the classroom.", author: "A.P.J. Abdul Kalam" },
+  { text: "Man needs difficulties in life because they are necessary to enjoy the success.", author: "A.P.J. Abdul Kalam" },
+  // Modern Indian leaders
   { text: "I dream of a digital India where technology ensures the nation\u2019s growth.", author: "Narendra Modi" },
   { text: "Hard work never brings fatigue. It brings satisfaction.", author: "Narendra Modi" },
   { text: "Once we decide we have to do something, we can go miles ahead.", author: "Narendra Modi" },
@@ -316,9 +553,6 @@ const QUOTES = [
   { text: "An unstoppable force comes from having unshakeable self-belief.", author: "Balasaheb Thackeray" },
   { text: "I am a born fighter. I have fought all my life.", author: "Balasaheb Thackeray" },
   { text: "Either I will come back after hoisting the tricolour, or I will come back wrapped in it. But I will come back for certain.", author: "Captain Vikram Batra" },
-  { text: "If a country is to be corruption-free, I strongly feel there are three key members who can make it happen \u2014 the father, the mother, and the teacher.", author: "A.P.J. Abdul Kalam" },
-  { text: "Success is when your signature changes to autograph.", author: "A.P.J. Abdul Kalam" },
-  { text: "The best brains of the nation may be found on the last benches of the classroom.", author: "A.P.J. Abdul Kalam" },
   // Tech visionaries
   { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
   { text: "AI is the new electricity.", author: "Andrew Ng" },
@@ -339,7 +573,7 @@ const QUOTES = [
 // ===========================
 // STORAGE
 // ===========================
-const STORAGE_KEY = "kamal-ai-roadmap-v2";
+const STORAGE_KEY = "ai-roadmap-90day-v1";
 const STREAK_KEY = "ai-roadmap-streak";
 const START_KEY = "ai-roadmap-start";
 
@@ -543,7 +777,7 @@ export default function App() {
 
   const getUnlockedSkills = () => {
     const unlocked = [];
-    for (let w = 1; w <= 9; w++) {
+    for (let w = 1; w <= 13; w++) {
       if (isWeekComplete(w, checked) && WEEK_SKILLS[w]) {
         unlocked.push(...WEEK_SKILLS[w]);
       }
@@ -553,7 +787,7 @@ export default function App() {
 
   const getAllNewSkills = () => {
     const all = [];
-    for (let w = 1; w <= 9; w++) {
+    for (let w = 1; w <= 13; w++) {
       if (WEEK_SKILLS[w]) {
         all.push(
           ...WEEK_SKILLS[w].map((s) => ({
@@ -627,13 +861,13 @@ export default function App() {
       <div style={{ padding: "40px 20px 10px", textAlign: "center", position: "relative" }}>
         <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 500, height: 500, background: "radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ display: "inline-block", padding: "4px 14px", background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.4)", borderRadius: 100, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#f59e0b", marginBottom: 14 }}>
-          60-Day AI Roadmap
+          90-Day AI Roadmap
         </div>
         <h1 style={{ fontSize: "clamp(24px, 5vw, 40px)", fontWeight: 800, lineHeight: 1.15, margin: 0 }}>
           Full-Stack &rarr; <span style={{ color: "#06b6d4" }}>AI Engineer</span>
         </h1>
         <p style={{ color: "#64748b", fontSize: 14, maxWidth: 480, margin: "8px auto 0" }}>
-          Your React &amp; Node.js foundation is your superpower. Add AI to become unstoppable.
+          Your React &amp; Node.js foundation is your superpower. Learn slowly, build deeply, become unstoppable.
         </p>
       </div>
 
@@ -665,7 +899,7 @@ export default function App() {
           <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 12, padding: "14px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 10, color: "#64748b", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 }}>Day</div>
             <div style={{ fontSize: 22, fontWeight: 800, color: "#06b6d4", fontFamily: "monospace" }}>{dayNum || "\u2014"}</div>
-            <div style={{ fontSize: 10, color: "#475569" }}>/ 60</div>
+            <div style={{ fontSize: 10, color: "#475569" }}>/ 90</div>
           </div>
         </div>
 
@@ -721,7 +955,7 @@ export default function App() {
             <div style={{ fontSize: 36, marginBottom: 8 }}>{"\ud83c\udf89"}</div>
             <div style={{ fontSize: 20, fontWeight: 800, color: "#10b981" }}>Mission Complete!</div>
             <p style={{ color: "#64748b", fontSize: 13, marginTop: 6 }}>
-              You&apos;ve completed all 67 tasks. You&apos;re now an AI Engineer with 3 shipped projects.
+              You&apos;ve completed all {TOTAL_TASKS} tasks. You&apos;re now an AI Engineer with 3 shipped projects.
             </p>
           </div>
         )}
@@ -1105,7 +1339,7 @@ export default function App() {
         >
           <div style={{ fontSize: 28, fontWeight: 800 }}>Build. Ship. Get Hired.</div>
           <p style={{ color: "#64748b", fontSize: 13, marginTop: 6, maxWidth: 460, margin: "6px auto 0" }}>
-            60 days. 3 deployed AI projects. Your full-stack foundation + GenAI = the most in-demand skill combination in 2026.
+            90 days. 13 weeks. 3 deployed AI projects. Learn at your own pace — your full-stack foundation + GenAI = the most in-demand skill combination in 2026.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16 }}>
             <div style={{ textAlign: "center" }}>
