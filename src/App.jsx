@@ -325,6 +325,25 @@ const WEEK_RESOURCES = {
   ],
 };
 
+// ===========================
+// CAREER LADDER — salary tier unlocked per week
+// ===========================
+const WEEK_SALARY = {
+  1:  { range: "5–7 LPA",      role: "Python Developer (Junior)",               note: "Entry-level Python + your JS experience = day-one productive." },
+  2:  { range: "6–8 LPA",      role: "Python Backend Developer",                note: "OOP + file I/O + your Node.js background = real backend chops." },
+  3:  { range: "9–12 LPA",     role: "Full-Stack Developer (Python + React)",   note: "FastAPI + React is a rare combo. Mid-level full-stack range." },
+  4:  { range: "12–16 LPA",    role: "AI Integration Developer",                note: "You can wire LLMs into real products — already ahead of 90% of devs." },
+  5:  { range: "14–18 LPA",    role: "GenAI Developer (Junior)",                note: "Embeddings + vector DBs unlock the RAG world. Premium skill set." },
+  6:  { range: "16–22 LPA",    role: "RAG / LangChain Engineer",                note: "Full RAG pipeline mastery — startups pay top dollar for this." },
+  7:  { range: "20–28 LPA",    role: "AI Application Engineer",                 note: "One shipped production AI app = interviews start rolling in." },
+  8:  { range: "22–32 LPA",    role: "AI Agent Engineer",                       note: "Function calling + tool use — you build agents that act, not just chat." },
+  9:  { range: "26–36 LPA",    role: "Senior AI Engineer (Agent Workflows)",    note: "LangGraph puts you in the top 5% of AI builders globally." },
+  10: { range: "30–42 LPA",    role: "Senior GenAI Engineer",                   note: "Pinecone + MCP + hybrid search = production-grade engineer." },
+  11: { range: "35–50 LPA",    role: "Staff / Lead AI Engineer",                note: "Multi-agent systems deployed = FAANG / top-tier AI startup range." },
+  12: { range: "45–65 LPA",    role: "Founding / Principal AI Engineer",        note: "Shipped AI SaaS + monetization = founding engineer territory." },
+  13: { range: "60 LPA – 1Cr+ • $100K–$200K remote", role: "AI Engineer @ Top Product Cos / YC Startups / Global Remote", note: "DESTINATION — 3 shipped AI products + portfolio + strategy = world-class offers.", isDestination: true },
+};
+
 const TOP_CHANNELS = [
   { name: "Krish Naik", desc: "Python, ML, GenAI (Hindi + English)", url: "https://www.youtube.com/@krishnaik06" },
   { name: "CampusX (Nitish Singh)", desc: "GenAI, RAG, LangChain (Hindi)", url: "https://www.youtube.com/@campusx-official" },
@@ -832,12 +851,25 @@ export default function App() {
         <>
           <div style={{
             position: "fixed", top: 24, left: "50%", transform: "translateX(-50%)", zIndex: 9999,
-            background: "linear-gradient(135deg, #f59e0b, #06b6d4)", color: "#000",
+            background: WEEK_SALARY[celebration.week]?.isDestination
+              ? "linear-gradient(135deg, #10b981, #06b6d4, #ec4899)"
+              : "linear-gradient(135deg, #f59e0b, #06b6d4)",
+            color: "#000",
             padding: "14px 28px", borderRadius: 14, fontWeight: 700, fontSize: 15,
-            animation: "slideDown 0.4s ease-out",
-            boxShadow: "0 8px 40px rgba(245,158,11,0.4)",
+            animation: "slideDown 0.4s ease-out", textAlign: "center",
+            boxShadow: "0 8px 40px rgba(245,158,11,0.4)", maxWidth: "92vw",
           }}>
-            Week {celebration.week} Complete! +{(WEEK_SKILLS[celebration.week] || []).length} skills unlocked
+            <div>
+              {WEEK_SALARY[celebration.week]?.isDestination ? "🎯 DESTINATION REACHED!" : `Week ${celebration.week} Complete!`}
+            </div>
+            {WEEK_SALARY[celebration.week] && (
+              <div style={{ fontSize: 12, fontWeight: 700, marginTop: 4, opacity: 0.85 }}>
+                You can now crack {WEEK_SALARY[celebration.week].range} • {WEEK_SALARY[celebration.week].role}
+              </div>
+            )}
+            <div style={{ fontSize: 11, fontWeight: 600, marginTop: 3, opacity: 0.7 }}>
+              +{(WEEK_SKILLS[celebration.week] || []).length} skills unlocked
+            </div>
           </div>
           {/* Mini confetti */}
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: "50vh", pointerEvents: "none", zIndex: 9998, overflow: "hidden" }}>
@@ -948,14 +980,20 @@ export default function App() {
         {/* ===== ALL DONE ===== */}
         {allDone && (
           <div style={{
-            background: "linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.1))",
-            border: "1px solid rgba(16,185,129,0.3)", borderRadius: 14, padding: "24px 20px",
+            background: "linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.12), rgba(236,72,153,0.1))",
+            border: "1px solid rgba(16,185,129,0.35)", borderRadius: 14, padding: "26px 20px",
             marginBottom: 16, textAlign: "center",
           }}>
-            <div style={{ fontSize: 36, marginBottom: 8 }}>{"\ud83c\udf89"}</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#10b981" }}>Mission Complete!</div>
-            <p style={{ color: "#64748b", fontSize: 13, marginTop: 6 }}>
-              You&apos;ve completed all {TOTAL_TASKS} tasks. You&apos;re now an AI Engineer with 3 shipped projects.
+            <div style={{ fontSize: 36, marginBottom: 8 }}>{"\ud83c\udfaf"}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#10b981" }}>Destination Reached!</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#34d399", marginTop: 6 }}>
+              {WEEK_SALARY[13].range}
+            </div>
+            <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, marginTop: 2 }}>
+              {WEEK_SALARY[13].role}
+            </div>
+            <p style={{ color: "#64748b", fontSize: 13, marginTop: 10, maxWidth: 480, margin: "10px auto 0", lineHeight: 1.55 }}>
+              {TOTAL_TASKS} tasks. 13 weeks. 3 shipped AI products. You&apos;re now an AI Engineer ready for top-tier offers.
             </p>
           </div>
         )}
@@ -1074,6 +1112,74 @@ export default function App() {
           </div>
         </div>
 
+        {/* ===== CAREER LADDER ===== */}
+        <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 14, padding: "18px 20px", marginBottom: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#10b981", textTransform: "uppercase", letterSpacing: 1.2 }}>
+              Career Ladder &mdash; Every Week Unlocks a Higher Salary Tier
+            </span>
+            {(() => {
+              let currentTier = null;
+              for (let w = 13; w >= 1; w--) {
+                if (isWeekComplete(w, checked) && WEEK_SALARY[w]) { currentTier = { week: w, ...WEEK_SALARY[w] }; break; }
+              }
+              return currentTier ? (
+                <span style={{ fontSize: 11, color: "#34d399", fontWeight: 700, fontFamily: "monospace" }}>
+                  Current: {currentTier.range}
+                </span>
+              ) : (
+                <span style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>
+                  Start Week 1 to unlock
+                </span>
+              );
+            })()}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {Array.from({ length: 13 }, (_, i) => i + 1).map((w) => {
+              const tier = WEEK_SALARY[w];
+              if (!tier) return null;
+              const unlocked = isWeekComplete(w, checked);
+              const isDest = tier.isDestination;
+              return (
+                <div key={w} style={{
+                  display: "flex", alignItems: "center", gap: 12,
+                  padding: "10px 12px", borderRadius: 9,
+                  background: unlocked
+                    ? (isDest ? "linear-gradient(90deg, rgba(16,185,129,0.1), rgba(6,182,212,0.08), rgba(236,72,153,0.08))" : "rgba(16,185,129,0.06)")
+                    : "#0d1017",
+                  border: `1px solid ${unlocked ? (isDest ? "rgba(16,185,129,0.4)" : "rgba(16,185,129,0.2)") : "#1a1f2e"}`,
+                  opacity: unlocked ? 1 : 0.55,
+                  transition: "all 0.3s",
+                }}>
+                  <div style={{
+                    width: 30, height: 30, borderRadius: 7, flexShrink: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 11, fontWeight: 800, fontFamily: "monospace",
+                    background: unlocked ? (isDest ? "rgba(16,185,129,0.2)" : "rgba(16,185,129,0.15)") : "#1a1f2e",
+                    color: unlocked ? "#10b981" : "#475569",
+                  }}>
+                    {unlocked ? (isDest ? "🎯" : "✓") : `W${w}`}
+                  </div>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{
+                      fontSize: 12.5, fontWeight: 700,
+                      color: unlocked ? (isDest ? "#34d399" : "#10b981") : "#64748b",
+                    }}>
+                      {tier.range}
+                      <span style={{ color: unlocked ? "#cbd5e1" : "#475569", fontWeight: 600, marginLeft: 6 }}>
+                        &middot; {tier.role}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 10.5, color: unlocked ? "#64748b" : "#3a4458", marginTop: 2, lineHeight: 1.45 }}>
+                      {unlocked ? tier.note : `Complete Week ${w} to unlock`}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* ===== FILTER TABS ===== */}
         <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
           {[{ label: "All Phases", idx: 0 }, ...ROADMAP.map((p, i) => ({ label: `Phase ${p.phase}: ${p.title}`, idx: i + 1, color: p.color }))].map((tab) => (
@@ -1145,6 +1251,11 @@ export default function App() {
                             +{WEEK_SKILLS[week.week].length} skills
                           </span>
                         )}
+                        {weekDone && WEEK_SALARY[week.week] && (
+                          <span style={{ color: "#10b981", marginLeft: 6, fontWeight: 700 }}>
+                            &middot; {WEEK_SALARY[week.week].range}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1174,6 +1285,28 @@ export default function App() {
                             {s}{i < WEEK_SKILLS[week.week].length - 1 ? ", " : ""}
                           </span>
                         ))}
+                      </div>
+                    )}
+
+                    {/* Salary tier preview */}
+                    {!weekDone && WEEK_SALARY[week.week] && (
+                      <div style={{
+                        padding: "10px 12px", marginBottom: 8,
+                        background: WEEK_SALARY[week.week].isDestination
+                          ? "linear-gradient(135deg, rgba(16,185,129,0.08), rgba(6,182,212,0.08), rgba(236,72,153,0.08))"
+                          : "rgba(16,185,129,0.06)",
+                        border: `1px dashed ${WEEK_SALARY[week.week].isDestination ? "rgba(16,185,129,0.4)" : "rgba(16,185,129,0.2)"}`,
+                        borderRadius: 8, fontSize: 11.5,
+                      }}>
+                        <div style={{ color: "#10b981", fontWeight: 700, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1, marginBottom: 3 }}>
+                          {WEEK_SALARY[week.week].isDestination ? "🎯 Final Destination" : "💼 Unlocks Career Tier"}
+                        </div>
+                        <div style={{ color: "#cbd5e1", fontWeight: 700 }}>
+                          {WEEK_SALARY[week.week].range} &middot; <span style={{ color: "#94a3b8", fontWeight: 600 }}>{WEEK_SALARY[week.week].role}</span>
+                        </div>
+                        <div style={{ color: "#64748b", fontSize: 11, marginTop: 3, lineHeight: 1.5 }}>
+                          {WEEK_SALARY[week.week].note}
+                        </div>
                       </div>
                     )}
 
@@ -1228,19 +1361,38 @@ export default function App() {
                     {/* Week complete badge */}
                     {weekDone && (
                       <div style={{
-                        marginTop: 8, padding: "10px 14px", background: `${phase.color}08`,
+                        marginTop: 8, padding: "12px 14px", background: `${phase.color}08`,
                         border: `1px solid ${phase.color}20`, borderRadius: 10,
-                        display: "flex", alignItems: "center", gap: 10,
                       }}>
-                        <span style={{ fontSize: 16 }}>{"\u2728"}</span>
-                        <div>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: phase.color }}>
-                            Week {week.week} Mastered &middot; +{(WEEK_SKILLS[week.week] || []).length * XP_PER_TASK} XP earned
-                          </div>
-                          <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>
-                            Unlocked: {(WEEK_SKILLS[week.week] || []).join(", ")}
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <span style={{ fontSize: 16 }}>{"\u2728"}</span>
+                          <div>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: phase.color }}>
+                              Week {week.week} Mastered &middot; +{(WEEK_SKILLS[week.week] || []).length * XP_PER_TASK} XP earned
+                            </div>
+                            <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>
+                              Unlocked: {(WEEK_SKILLS[week.week] || []).join(", ")}
+                            </div>
                           </div>
                         </div>
+                        {WEEK_SALARY[week.week] && (
+                          <div style={{
+                            marginTop: 10, paddingTop: 10, borderTop: `1px solid ${phase.color}15`,
+                            display: "flex", alignItems: "flex-start", gap: 10,
+                          }}>
+                            <span style={{ fontSize: 15 }}>{WEEK_SALARY[week.week].isDestination ? "\ud83c\udfaf" : "\ud83d\udcbc"}</span>
+                            <div>
+                              <div style={{ fontSize: 12, fontWeight: 700, color: "#10b981" }}>
+                                {WEEK_SALARY[week.week].isDestination ? "Destination reached: " : "You can now crack "}
+                                <span style={{ color: "#34d399" }}>{WEEK_SALARY[week.week].range}</span>
+                                <span style={{ color: "#94a3b8", fontWeight: 600 }}> &middot; {WEEK_SALARY[week.week].role}</span>
+                              </div>
+                              <div style={{ fontSize: 11, color: "#64748b", marginTop: 3, lineHeight: 1.5 }}>
+                                {WEEK_SALARY[week.week].note}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
 
