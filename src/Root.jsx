@@ -4,7 +4,7 @@ import InterviewTrack from "./InterviewTrack.jsx";
 import AWSTrack from "./AWSTrack.jsx";
 
 const TABS = [
-  { id: "30day",  label: "30-Day Interview Track", color: "#10b981" },
+  { id: "30day",  label: "15-Day Interview Track", color: "#10b981" },
   { id: "aws",    label: "AWS 15-Day Track",        color: "#f97316" },
   { id: "90day",  label: "90-Day Full Roadmap",     color: "#06b6d4" },
 ];
