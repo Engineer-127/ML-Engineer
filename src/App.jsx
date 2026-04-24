@@ -906,7 +906,7 @@ export default function App() {
       <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 16px" }}>
 
         {/* ===== STATS BAR ===== */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 16 }}>
           {/* XP */}
           <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 12, padding: "14px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 10, color: "#64748b", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 }}>XP</div>
@@ -926,12 +926,6 @@ export default function App() {
               {streak > 0 ? streak : "\u2014"}
             </div>
             <div style={{ fontSize: 10, color: "#475569" }}>{streak === 1 ? "day" : "days"}</div>
-          </div>
-          {/* Journey Day */}
-          <div style={{ background: "#111318", border: "1px solid #1e2330", borderRadius: 12, padding: "14px 12px", textAlign: "center" }}>
-            <div style={{ fontSize: 10, color: "#64748b", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 }}>Day</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#06b6d4", fontFamily: "monospace" }}>{dayNum || "\u2014"}</div>
-            <div style={{ fontSize: 10, color: "#475569" }}>/ 90</div>
           </div>
         </div>
 
