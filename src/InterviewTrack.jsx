@@ -372,13 +372,286 @@ const ALL_QA = [
 
 const TOTAL_DAYS = PHASES.reduce((s, p) => s + p.days.length, 0);
 
+// ===========================
+// SENIOR LEVEL Q&A BANK
+// ===========================
+const SENIOR_QA = [
+  {
+    category: "LLMs & Prompt Engineering",
+    color: "#10b981",
+    fromDays: "Days 1–2",
+    questions: [
+      {
+        q: "What is the transformer architecture and how does self-attention work?",
+        level: "Senior",
+        a: "Transformers process the entire input in parallel using self-attention. Self-attention lets each token look at all other tokens and decide how much to 'attend' to them. For each token, it computes Query (what am I looking for?), Key (what do I contain?), and Value (what do I contribute?). Attention score = softmax(QK^T / √d_k) × V. Multi-head attention runs this in parallel N times, each head learning different relationships. This replaced RNNs because it parallelises perfectly on GPUs and captures long-range dependencies without vanishing gradients.",
+      },
+      {
+        q: "What is the difference between BERT-style and GPT-style models? When would you use each?",
+        level: "Senior",
+        a: "BERT (encoder-only) = bidirectional, reads the full sentence in both directions. Best for: classification, NER, semantic similarity, embeddings. Pre-trained with masked language modelling. GPT (decoder-only) = autoregressive, predicts next token left-to-right. Best for: text generation, chat, summarisation, code. Pre-trained with causal language modelling. For Gen AI applications you almost always use GPT-style models for generation and BERT-style models for embeddings.",
+      },
+      {
+        q: "What is context window and how does it affect cost and performance?",
+        level: "Mid",
+        a: "Context window = the maximum tokens the model can process in one call (prompt + response). GPT-4o = 128k tokens, Claude 3.5 = 200k. Larger context = more expensive (cost scales with tokens) and slower. Performance: models degrade on very long contexts — they 'forget' things in the middle (lost-in-the-middle problem). Strategy: don't stuff the full context window. Use RAG to retrieve only the relevant chunks. Keep system prompts concise. Monitor average token usage per request in LangSmith.",
+      },
+      {
+        q: "How does tokenisation work and why does it matter for cost optimisation?",
+        level: "Mid",
+        a: "Tokenisation splits text into sub-word units using BPE (Byte Pair Encoding). English: ~1 token per 0.75 words. Code: ~1 token per character (expensive). Non-English: 2-4x more tokens than English for same content. Cost = input tokens + output tokens × price per 1M. Optimisation: compress prompts (remove unnecessary words), cache repetitive system prompts (prompt caching cuts costs 90% on Anthropic), use smaller models for simple tasks, batch similar requests. Always measure token usage per request — outliers usually reveal prompt engineering problems.",
+      },
+      {
+        q: "What is chain-of-thought prompting and when does it actually help?",
+        level: "Mid",
+        a: "Chain-of-thought (CoT) = asking the model to reason step by step before answering. Add 'Think step by step' or show examples with reasoning in the prompt. Helps significantly for: multi-step maths, logical reasoning, code debugging, complex decision-making. Does NOT help for: simple factual recall, classification, tasks where the answer is direct. Zero-shot CoT ('think step by step') works surprisingly well. Few-shot CoT (showing reasoning examples) works even better. Tradeoff: uses more output tokens = higher cost + latency.",
+      },
+      {
+        q: "How do you prevent prompt injection attacks?",
+        level: "Senior",
+        a: "Prompt injection = a user crafts input that overrides your system prompt. Example: user sends 'Ignore all previous instructions and...' Mitigations: (1) Input sanitisation — strip or flag suspicious patterns. (2) Privilege separation — never let user-controlled input reach the system prompt directly. (3) Output validation — check the response doesn't violate rules before returning it. (4) Use a separate LLM call to classify if the input is adversarial. (5) Least privilege for agents — don't give agents access to tools they don't need. This is table stakes for any public-facing AI app.",
+      },
+      {
+        q: "How would you choose between GPT-4o, Claude 3.5 Sonnet, and Gemini 1.5 Pro?",
+        level: "Senior",
+        a: "GPT-4o: best all-round, strongest coding, best function calling reliability, largest ecosystem. Claude 3.5 Sonnet: best for long documents (200k context), best for instruction following, lowest hallucination rate on factual tasks, best for structured output. Gemini 1.5 Pro: best context window (1M tokens), best for multimodal (video, audio), strong for Google Workspace integrations. My default: Claude for RAG (long context, precise), GPT-4o for agents (reliable tool calling). Always benchmark on your specific task — general benchmarks don't predict task-specific performance.",
+      },
+      {
+        q: "What is few-shot prompting and how many examples is optimal?",
+        level: "Mid",
+        a: "Few-shot = providing examples of input-output pairs in the prompt before the actual query. It shows the model the expected format and style. Optimal count: 3-5 examples is usually the sweet spot. More doesn't always help and adds cost. Placement: examples before the actual input, after the system prompt. Selection: examples should be representative of the task distribution. Edge cases help most. Diversity matters — don't use 5 near-identical examples. For classification, include at least one example per class.",
+      },
+    ],
+  },
+  {
+    category: "Embeddings & Vector Databases",
+    color: "#06b6d4",
+    fromDays: "Days 3–4",
+    questions: [
+      {
+        q: "What is the difference between sparse and dense embeddings? What is hybrid search?",
+        level: "Senior",
+        a: "Dense embeddings = neural network vectors (text-embedding-3-small). Good for: semantic similarity, understanding meaning. Bad for: exact keyword matches, rare technical terms. Sparse embeddings = BM25/TF-IDF style vectors. Good for: exact keyword matching, product codes, rare terms. Bad for: semantic understanding. Hybrid search = combine both. Score = α × dense_score + (1-α) × sparse_score. Use hybrid when your queries mix semantic and keyword intent. Pinecone and Weaviate support hybrid search natively. Real-world: 'RAG accuracy dropped for technical docs' → switch to hybrid — the dense model doesn't understand domain jargon.",
+      },
+      {
+        q: "How does HNSW (Hierarchical Navigable Small World) work? Why do vector DBs use it?",
+        level: "Senior",
+        a: "HNSW is an approximate nearest neighbour (ANN) index structure. It builds a multi-layer graph: top layers have long-range connections (skip), bottom layers have fine-grained connections. At query time: enter at the top, greedily navigate towards the query vector, descend layers until you reach the bottom. This gives O(log n) search instead of O(n) brute force. Trade-off: 95-99% recall (not 100%). That 1% miss is acceptable — the performance gain (1M vectors searched in <5ms) is not. All major vector DBs (Pinecone, Chroma, Weaviate) use HNSW or a variant.",
+      },
+      {
+        q: "How do you choose between Pinecone, ChromaDB, pgvector, and Weaviate?",
+        level: "Senior",
+        a: "ChromaDB: local dev, prototyping, free. No infra. Not for production scale. pgvector: you're already on PostgreSQL. Good for <1M vectors. Familiar SQL interface. Metadata filtering is just WHERE clauses. Weaviate: open source, self-hostable, good multi-tenancy, GraphQL API, hybrid search built-in. Pinecone: managed cloud, zero ops, scales to billions of vectors, metadata filtering, namespaces for multi-tenancy. Most expensive. My heuristic: ChromaDB for dev, pgvector if already on Postgres and <1M docs, Pinecone for production scale, Weaviate if you need self-hosting at scale.",
+      },
+      {
+        q: "How do you handle embedding model version updates in production?",
+        level: "Senior",
+        a: "This is a breaking change — new model produces different vectors, so old vectors become incompatible. Strategy: (1) Dual-write: when updating, write both old and new embeddings during transition. (2) Re-embed everything: trigger a background job to re-embed all documents with the new model. (3) Blue-green index: create a new Pinecone index with new model, test it, switch traffic when ready, delete old index. (4) Never mix embedding models in the same collection — similarity scores become meaningless. Always pin your embedding model version in code and treat upgrades as a migration event.",
+      },
+      {
+        q: "What is multi-vector retrieval (ColBERT / late interaction)?",
+        level: "Staff",
+        a: "Standard dense retrieval: embed document into one vector. ColBERT: embed every token in the document into its own vector. At query time: embed each query token, compute max similarity across all document token vectors (MaxSim). This captures fine-grained token-level matches, much better for complex queries. Tradeoff: stores N vectors per document instead of 1, index is much larger. Ragatouille library wraps ColBERT in Python. Use when: single-vector RAG is missing nuanced queries, you have the storage budget, and precision matters more than cost.",
+      },
+      {
+        q: "How do you handle multilingual content in a RAG system?",
+        level: "Senior",
+        a: "Option 1: multilingual embedding model (e.g., multilingual-e5-large). One model handles all languages. Simpler architecture. Some quality loss vs language-specific models. Option 2: language detection → route to language-specific embedding model + separate collection. Better quality, more ops complexity. Option 3: translate everything to English, embed English. Simplest but loses nuance and adds latency. My recommendation: start with multilingual-e5-large. It handles 100+ languages well. Only split by language if you're seeing measurable quality differences in production.",
+      },
+      {
+        q: "What is metadata filtering in vector search and when do you use it?",
+        level: "Mid",
+        a: "Metadata = extra fields stored alongside each vector (source, date, author, category, user_id). Metadata filtering = apply WHERE-style filters before or after vector search. Pre-filtering: narrow the search space first (only vectors with user_id=123), then ANN. Post-filtering: ANN search first, then filter results. Use metadata filtering for: multi-tenancy (user only sees their docs), date ranges, document types. Critical for security — without it, users could retrieve other users' data. Pinecone filter syntax: {source: {$eq: 'contract'}}.",
+      },
+    ],
+  },
+  {
+    category: "RAG Architecture & Retrieval",
+    color: "#f59e0b",
+    fromDays: "Days 5–6",
+    questions: [
+      {
+        q: "What are the main failure modes of RAG and how do you debug each?",
+        level: "Senior",
+        a: "Four failure modes: (1) Retrieval failure — wrong chunks retrieved. Debug: log retrieved chunks, measure context recall with RAGAS. Fix: tune chunk size, try hybrid search, improve query. (2) Generation failure — right chunks retrieved but wrong answer. Debug: check if answer is in the context. Fix: improve prompt, lower temperature, add 'answer only from context'. (3) Context overload — too many chunks, LLM ignores the relevant one. Fix: reduce k from 5 to 3, use re-ranking. (4) Chunking failure — the answer spans a chunk boundary. Fix: increase overlap, use semantic chunking. Always instrument which failure mode you're hitting before trying fixes.",
+      },
+      {
+        q: "What is re-ranking and how does it improve RAG quality?",
+        level: "Senior",
+        a: "ANN retrieval is fast but imprecise — it returns the top-k approximate matches. Re-ranking is a second, more accurate scoring step. Flow: retrieve top-20 candidates via ANN → re-rank them with a cross-encoder (e.g., Cohere rerank, BGE reranker) → return top-3. Cross-encoder: takes (query, document) pair, computes a precise relevance score. Much slower than bi-encoder (can't pre-compute), but much more accurate. Cost: 1 API call per candidate × 20 candidates. Trade-off: +100-200ms latency, +cost, but measurably better retrieval. Use when retrieval quality is the bottleneck.",
+      },
+      {
+        q: "What is HyDE (Hypothetical Document Embeddings) and when does it help?",
+        level: "Senior",
+        a: "HyDE solves the query-document asymmetry problem. User queries are short and vague ('what is the refund policy?'). Documents are long and detailed. Their embeddings don't naturally align. HyDE: use the LLM to generate a hypothetical answer to the query first → embed the hypothetical answer → use that embedding for retrieval. The hypothetical answer is in the same 'language space' as the documents. Typically improves recall by 10-20% on open-ended questions. Tradeoff: adds one LLM call (latency + cost). Best used when queries are short and vague.",
+      },
+      {
+        q: "How do you handle multi-hop questions in RAG?",
+        level: "Staff",
+        a: "Multi-hop = questions that require combining information from multiple documents. Example: 'What is the refund policy for the product launched by the CEO in 2023?'. Single retrieval can't answer this. Approaches: (1) Iterative RAG / self-ask: LLM generates sub-questions, retrieves for each, combines. (2) Multi-step agent: agent breaks the question, retrieves in steps. (3) Knowledge graph + RAG: build entity graph, traverse it for multi-hop queries. (4) HippoRAG: mimics human memory consolidation. Start with iterative RAG using an agent loop. It handles 80% of real-world multi-hop cases.",
+      },
+      {
+        q: "How do you design a multi-tenant RAG system where User A cannot see User B's documents?",
+        level: "Senior",
+        a: "Three patterns: (1) Namespace isolation (Pinecone): each user gets their own namespace. Simple, strong isolation, but hard to query across users. (2) Metadata filtering: all vectors in one collection, each tagged with user_id. Filter every query with user_id = current_user. Cheaper, but relies on correct metadata. (3) Separate collections per tenant: strongest isolation, expensive at scale (1000 tenants = 1000 collections). My recommendation: metadata filtering for most cases. Add row-level security at the application layer. Audit filter usage — a missing filter is a data leak. Never trust the LLM to enforce tenancy — enforce it in the retrieval layer.",
+      },
+      {
+        q: "What is the difference between naive RAG and advanced RAG?",
+        level: "Senior",
+        a: "Naive RAG: chunk → embed → retrieve top-k → pass to LLM. Works for simple use cases. Advanced RAG adds three improvements: Pre-retrieval (query enhancement): query rewriting, HyDE, query decomposition. Retrieval (better search): hybrid search, re-ranking, multi-vector retrieval, metadata filtering. Post-retrieval (better context): context compression (remove irrelevant sentences from chunks), re-ordering (put most relevant chunk first), citation tracking. In production start with naive RAG and measure RAGAS scores. Add advanced techniques only where the metrics show a bottleneck. Don't over-engineer upfront.",
+      },
+      {
+        q: "How do you handle documents that are too long for a single context window?",
+        level: "Senior",
+        a: "Options: (1) Chunking + RAG (standard) — split and only retrieve relevant parts. Works for Q&A. (2) Map-reduce: split into chunks, summarise each, then summarise summaries. Good for: 'summarise this entire contract'. (3) Iterative refinement: process chunk by chunk, carry forward a running summary. (4) Long-context models (Claude 200k, Gemini 1M): just pass the whole thing. Simple, expensive, degrades on very long docs. (5) Hierarchical indexing: index summaries at the top, full text at bottom. Retrieve summary first, drill down if needed. Pick based on your task: Q&A → RAG. Summarisation → map-reduce. Analysis → long-context model.",
+      },
+      {
+        q: "How do you handle conflicting information retrieved from different chunks?",
+        level: "Senior",
+        a: "This is a hard problem. Approaches: (1) Recency bias: when two chunks conflict, prefer the most recent (add date metadata, sort by date before passing to LLM). (2) Source ranking: rank sources by authority. Official docs > blog posts > user comments. Encode this in metadata and use it in the prompt. (3) Explicit instruction: tell the LLM 'if sources conflict, cite both and explain the conflict' instead of making up a resolution. (4) Source deduplication: before indexing, deduplicate or merge documents about the same entity. The worst response is confident and wrong — always prefer acknowledging conflict over inventing consistency.",
+      },
+      {
+        q: "What is self-querying retrieval?",
+        level: "Senior",
+        a: "Self-querying = the LLM generates both the semantic search query AND the metadata filter from the user's natural language input. Example: user asks 'Show me Anthropic's blog posts from 2024 about safety'. LLM extracts: query='safety' and filter={source: 'anthropic', year: 2024}. LangChain has a SelfQueryRetriever that does this automatically. Benefit: users don't need to know the filter schema. The LLM translates natural language into structured queries. Use when your documents have rich metadata and users will query on attributes.",
+      },
+      {
+        q: "How do you measure and improve RAG retrieval quality?",
+        level: "Senior",
+        a: "RAGAS is the standard framework. Key metrics: Context Recall = what % of the answer is supported by retrieved chunks (are we retrieving the right stuff?). Context Precision = what % of retrieved chunks are relevant (are we retrieving irrelevant noise?). Faithfulness = does the answer only contain info from the context (no hallucination?). Answer Relevancy = does the answer actually address the question? To improve: if Context Recall is low → chunk size too small, try larger chunks or re-ranking. If Context Precision is low → too many irrelevant chunks, reduce k, add metadata filters. If Faithfulness is low → prompt issue, add 'answer only from context'.",
+      },
+    ],
+  },
+  {
+    category: "Agents, Tools & Frameworks",
+    color: "#8b5cf6",
+    fromDays: "Days 7–10",
+    questions: [
+      {
+        q: "What is the difference between single-agent and multi-agent architectures?",
+        level: "Senior",
+        a: "Single agent: one LLM with multiple tools, one ReAct loop. Good for: linear tasks, simple workflows, easier to debug. Multi-agent: multiple LLMs, each with their own role and tools, coordinating via messages. Patterns: Supervisor (one agent routes to specialist agents), Pipeline (agent A's output feeds agent B), Parallel (agents run simultaneously). Use multi-agent when: tasks can be parallelised, specialist roles improve quality (researcher + writer + reviewer), a single context window isn't enough. Tradeoff: much harder to debug, error propagation, higher cost. Start single-agent. Go multi-agent only when you hit real limitations.",
+      },
+      {
+        q: "How do you handle agent failures, retries, and error recovery?",
+        level: "Senior",
+        a: "Production agents fail. Strategies: (1) Tool-level retry with exponential backoff — wrap every tool call in try/except, retry up to 3x with delay. (2) Error message injection — return tool errors back to the LLM so it can adapt ('search failed: rate limited, try a different approach'). (3) Fallback tools — if primary tool fails, try an alternative. (4) Maximum step limit — set a hard limit on loop iterations (e.g., 20 steps) to prevent infinite loops. (5) Dead letter queue — if agent fails completely, store the task for human review. (6) Timeout — every tool call has a timeout. Never let an agent wait forever. Log every step — debugging agents without traces is nearly impossible.",
+      },
+      {
+        q: "What are the security risks of AI agents and how do you mitigate them?",
+        level: "Senior",
+        a: "Key risks: (1) Prompt injection — user input tricks the agent into calling unintended tools. Mitigation: input validation, privilege separation. (2) Over-privileged tools — agent can delete data it shouldn't. Mitigation: least-privilege, give agents read-only access unless write is required. (3) Indirect injection — malicious content in a retrieved document tells the agent to take harmful actions. Mitigation: treat tool outputs as untrusted, separate reasoning from action. (4) Data exfiltration — agent sends internal data to external tool. Mitigation: whitelist allowed domains for HTTP tools. (5) Runaway costs — agent loops indefinitely. Mitigation: step limits, spend limits, monitoring alerts. Security is the hardest part of production agents.",
+      },
+      {
+        q: "What is human-in-the-loop (HITL) and when must you use it?",
+        level: "Senior",
+        a: "HITL = pausing an agent at a decision point to get human approval before proceeding. LangGraph supports this natively with interrupt_before and interrupt_after. Use HITL when: the action is irreversible (sending emails, deleting data, making payments, deploying code), confidence is low, or stakes are high. Pattern: agent plans the action → show plan to human → human approves/rejects/edits → agent executes. The alternative (fully autonomous) is fine for read-only or low-stakes operations. Rule of thumb: if a human would be accountable for the action, require human approval in the loop.",
+      },
+      {
+        q: "How do you implement short-term and long-term memory in agents?",
+        level: "Senior",
+        a: "Short-term memory (in-context): the conversation history passed in each API call. Managed by a memory buffer. LangChain's ConversationBufferWindowMemory keeps last N messages. Tradeoff: context window limit, cost. Long-term memory (external): store important facts in a DB, retrieve when relevant. Implementations: (1) Entity memory — extract and store named entities ('user prefers Python'). (2) Summary memory — summarise past conversations, store summary. (3) Vector memory — embed and store key facts, retrieve semantically. Tools: mem0 (open source), Zep, custom Redis/Postgres. In practice: short-term for conversation flow, long-term for user preferences and facts across sessions.",
+      },
+      {
+        q: "What is parallel tool calling and when do you use it?",
+        level: "Senior",
+        a: "Parallel tool calling = the LLM calls multiple tools simultaneously in one response instead of sequentially. Supported by GPT-4 and Claude 3. Example: user asks 'Compare the weather in Mumbai and Delhi'. Without parallel: call get_weather(Mumbai) → wait → call get_weather(Delhi) → wait → answer. With parallel: call both simultaneously → wait for both → answer. Latency goes from 2 serial calls to 1 parallel batch. Enable it by default when using OpenAI/Anthropic — the model decides when to parallelise. Sequential is still used when tool B depends on tool A's result.",
+      },
+      {
+        q: "How do you test AI agents reliably?",
+        level: "Senior",
+        a: "Testing agents is hard because they're non-deterministic. Strategies: (1) Unit test individual tools — mock the LLM, test tool logic in isolation. (2) Trace-based testing — save real agent traces, replay them, compare outputs. (3) Eval datasets — build golden set of inputs with expected tool calls and final answers. Run regularly, track regression. (4) LLM-as-judge — use GPT-4 to evaluate if the agent achieved the task. (5) Boundary testing — adversarial inputs, injection attempts, edge cases. Tools: LangSmith has built-in eval + dataset management. Never test agents by just running them manually — you'll miss edge cases.",
+      },
+      {
+        q: "What is the supervisor agent pattern in LangGraph?",
+        level: "Senior",
+        a: "Supervisor pattern: a router agent decides which specialist agent to call next based on the user's request and the current state. Example: user message → supervisor decides → routes to 'research_agent', 'writing_agent', or 'review_agent' → each runs → result back to supervisor → supervisor decides next step or END. LangGraph implementation: supervisor is a node with conditional edges to each specialist. Each specialist is a subgraph. Supervisor prompt includes descriptions of each agent's capability. Use when: different tasks need truly different tools/prompts and combining everything into one agent degrades quality.",
+      },
+      {
+        q: "When would you choose LangGraph over raw OpenAI function calling?",
+        level: "Senior",
+        a: "Raw function calling: simple, low overhead, full control. Use for: single-step tool use, simple agents, when you want minimal abstraction. LangGraph: explicit state graph, handles cycles, human-in-the-loop, streaming, checkpointing, multi-agent. Use when: (1) You need to persist state across multiple steps. (2) You need human-in-the-loop. (3) Multi-agent coordination. (4) Complex conditional routing. (5) You want built-in tracing and debugging. The overhead of LangGraph pays off when your agent has more than 3-4 nodes or needs resumability. For a simple 2-tool chatbot, raw function calling is cleaner.",
+      },
+      {
+        q: "How do you prevent an agent from running in an infinite loop?",
+        level: "Mid",
+        a: "Multiple layers: (1) Step limit: hard cap on the number of tool calls (e.g., max_iterations=20 in LangChain). If hit, return partial result with 'max steps reached' message. (2) Recursion detection: if the agent calls the same tool with the same arguments twice in a row, break out. (3) Timeout: wall clock timeout on the entire agent run. (4) Stopping condition in state: add a 'confidence_score' field — if the agent thinks it has a good answer, it sets this and stops. (5) LLM prompt: 'If you find yourself repeating the same action, stop and give your best answer with what you have.' Defensive design — agents will loop if you don't explicitly prevent it.",
+      },
+    ],
+  },
+  {
+    category: "Production, Evaluation & System Design",
+    color: "#ec4899",
+    fromDays: "Days 11–15",
+    questions: [
+      {
+        q: "How do you implement streaming LLM responses in a production web app?",
+        level: "Mid",
+        a: "Backend (FastAPI): use StreamingResponse with an async generator that yields chunks from the LLM stream. LangChain: chain.astream(). Anthropic SDK: client.messages.stream(). Frontend: use EventSource (SSE) or fetch with ReadableStream. Parse each chunk and append to the displayed text. Key implementation detail: chunk contains a delta, not the full text. Accumulate locally. Handle errors: if stream breaks mid-way, show what was received + an error indicator. Never block on the full response for user-facing apps — streaming cuts perceived latency from 10s to near-instant.",
+      },
+      {
+        q: "How do you reduce LLM response latency in production?",
+        level: "Senior",
+        a: "Latency sources: model inference time (largest), network round-trip, retrieval time. Strategies: (1) Streaming — user sees output in ~500ms instead of waiting 10s. Biggest UX win. (2) Smaller model for simple tasks — GPT-4o-mini is 3-5x faster than GPT-4o. (3) Prompt caching (Anthropic) — cache system prompt, save ~500ms on repeated calls. (4) Parallel retrieval — embed query and start vector search while building the prompt. (5) Reduce context — fewer chunks, shorter system prompt. (6) Pre-compute — for predictable queries, pre-generate and cache answers. (7) Edge deployment — deploy closer to users (Vercel Edge, Cloudflare Workers). Target: <3s to first token, <10s total for most queries.",
+      },
+      {
+        q: "What is semantic caching and how does it work?",
+        level: "Senior",
+        a: "Semantic caching = cache LLM responses and return the cached answer for semantically similar future queries. Flow: (1) Embed the incoming query. (2) Check if a similar query (cosine sim > threshold, e.g., 0.95) exists in the cache. (3) If yes: return cached response instantly. (4) If no: call LLM, store response + embedding in cache. Cost savings: identical or near-identical queries (very common in production) are served without an LLM call. Tools: GPTCache (open source), LangChain has built-in caching. Tradeoff: stale responses if the underlying data changes. Add TTL to cached responses. Very effective for FAQ-style apps where the same questions repeat.",
+      },
+      {
+        q: "How do you handle LLM provider outages in production?",
+        level: "Senior",
+        a: "Multi-provider fallback: primary = GPT-4o, fallback = Claude 3.5, tertiary = Gemini Pro. Use LiteLLM (open source) as a proxy that handles routing, fallback, and rate limiting transparently. Circuit breaker pattern: if primary fails 3 times in 60 seconds, stop sending traffic for 5 minutes. Degrade gracefully: for non-critical features, return a cached response or 'temporarily unavailable' instead of showing an error. For critical paths: queue the request and process async when the provider recovers. Monitor provider status pages and set up alerts. SLA: most providers target 99.9% uptime but you need redundancy for the 0.1%.",
+      },
+      {
+        q: "How do you handle PII (Personally Identifiable Information) in LLM applications?",
+        level: "Senior",
+        a: "PII includes: names, emails, phone numbers, SSNs, credit cards, medical data. Strategies: (1) Detection: use a PII detection library (Presidio by Microsoft) to scan inputs before sending to LLM. (2) Anonymisation: replace PII with tokens ('John Smith' → 'PERSON_1') before sending. Re-hydrate in the response. (3) Data residency: use Bedrock or Azure OpenAI for regulated industries — prompts don't leave your cloud account. (4) Retention policy: don't log full prompts/responses if they contain PII. Log tokens and IDs instead. (5) User consent: be clear in ToS what data is sent to LLM providers. For healthcare/finance: full anonymisation or on-premise model deployment is usually required.",
+      },
+      {
+        q: "What is RLHF and how does it make LLMs safer?",
+        level: "Senior",
+        a: "RLHF = Reinforcement Learning from Human Feedback. Process: (1) Pre-train base LLM on internet text. (2) Fine-tune with supervised human-written examples (instruction tuning). (3) Collect human preferences: show 2 outputs, human picks better one. (4) Train a reward model to predict human preference scores. (5) Use RL (PPO algorithm) to fine-tune the LLM to maximise the reward model score. Result: model that follows instructions and avoids harmful outputs. Constitutional AI (Anthropic): uses AI feedback instead of human feedback at scale, guided by a constitution of principles. This is what separates GPT-4 from a raw base model.",
+      },
+      {
+        q: "How do you version, test, and roll back prompts in production?",
+        level: "Senior",
+        a: "Prompts are code — treat them that way. (1) Version control: store prompts in a DB or config file with semantic versions (v1.2.0). Never hardcode in application code. (2) Prompt registry: LangSmith Hub, Humanloop, or a simple Postgres table with prompt_id, version, content, created_at. (3) A/B testing: run old and new prompts in parallel on a % of traffic. Measure with your eval metrics (RAGAS, custom evals). (4) Rollback: keep previous version in the registry. One config change reverts traffic. (5) CI pipeline: every prompt change triggers an eval run on your golden dataset. Block deployment if metrics regress. Treat prompt regressions as bugs.",
+      },
+      {
+        q: "Design a RAG pipeline that serves 10 million documents at scale.",
+        level: "Staff",
+        a: "Ingestion: S3 stores raw docs → SQS queue → Lambda workers (auto-scale) → chunk with RecursiveCharacterSplitter → embed with text-embedding-3-small (batch API) → upsert to Pinecone with metadata (user_id, source, date). At scale use Pinecone's batch upsert (max 100 vectors per call). Query path: FastAPI → embed query (parallel with prompt building) → Pinecone query with metadata filter (user namespace) → re-rank top-20 with Cohere → take top-5 → LangChain RAG chain → stream via SSE. Monitoring: LangSmith for traces, CloudWatch for infra, RAGAS eval on 5% sample of queries. Cost optimisation: cache embeddings for repeated queries, use text-embedding-3-small not large unless quality requires it.",
+      },
+      {
+        q: "How do you optimise LLM costs when you're spending $10,000/month?",
+        level: "Senior",
+        a: "Breakdown where money goes first (LangSmith shows this). Typical split: 60% input tokens (long system prompts + large context), 30% output tokens, 10% embedding calls. Strategies: (1) Prompt caching (Anthropic Claude): cache system prompt = 90% cost reduction on repeated calls. Single biggest lever. (2) Downgrade model: use GPT-4o-mini for simple classification/extraction tasks. 10-50x cheaper, 90% of the quality. (3) Reduce context: send 3 chunks not 10. Summarise retrieved context. (4) Semantic cache: serve cached responses for repeat queries. (5) Output length control: set max_tokens, be explicit about response length in the prompt. (6) Batch non-realtime tasks: use OpenAI Batch API (50% cheaper, 24hr SLA).",
+      },
+      {
+        q: "What is LLM-as-judge evaluation? What are its limitations?",
+        level: "Senior",
+        a: "LLM-as-judge: use a strong LLM (GPT-4o) to evaluate the output of your app LLM. Show the judge: input + expected output + actual output → judge rates on criteria (accuracy, helpfulness, faithfulness). Scales where human eval can't (100k outputs/day). Works well for: open-ended quality assessment, faithfulness checking, preference ranking. Limitations: (1) Positional bias — judges prefer longer or first-presented answers. (2) Self-enhancement bias — GPT-4 rates GPT-4 outputs higher. (3) Judge can be wrong — it's another LLM, not ground truth. (4) Prompt sensitivity — results vary with how you phrase the evaluation criteria. Mitigation: use a different model as judge, swap answer order randomly, calibrate against human labels.",
+      },
+      {
+        q: "How do you build an observable, debuggable Gen AI application?",
+        level: "Senior",
+        a: "Observability = knowing what happened, when, and why. Stack: (1) LangSmith: automatic tracing of every chain/agent run. See full prompt, retrieved chunks, tool calls, token counts, latency. Set up eval datasets. Free tier is generous. (2) Custom metrics to CloudWatch: LLM latency, retrieval time, token count per request, error rate, user feedback scores. (3) Structured logging: log every request with trace_id, user_id, model, token_count. No PII in logs. (4) Alerting: alarm if p95 latency > 10s, error rate > 1%, retrieval quality drops. (5) User feedback loop: thumbs up/down in UI writes to a table. Review negative feedback weekly — this is your best debugging signal.",
+      },
+    ],
+  },
+];
+
 export default function InterviewTrack() {
+  const [view, setView] = useState("plan");
   const [checked, setChecked] = useState(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch { return {}; }
   });
   const [expandedDay, setExpandedDay] = useState(null);
   const [expandedQ, setExpandedQ] = useState(null);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+  const [openSeniorQ, setOpenSeniorQ] = useState(null);
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -435,7 +708,87 @@ export default function InterviewTrack() {
         </p>
       </div>
 
+      {/* VIEW TABS */}
+      <div style={{ display: "flex", justifyContent: "center", gap: 8, padding: "14px 16px 0" }}>
+        {[
+          { id: "plan",   label: "15-Day Plan",          color: "#10b981" },
+          { id: "senior", label: "Senior Interview Q&A", color: "#ec4899" },
+        ].map(tab => (
+          <button key={tab.id} onClick={() => setView(tab.id)} style={{
+            padding: "9px 22px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer",
+            background: view === tab.id ? tab.color + "18" : "#111318",
+            border: `1px solid ${view === tab.id ? tab.color + "60" : "#1e2330"}`,
+            color: view === tab.id ? tab.color : "#475569", transition: "all 0.2s",
+          }}>
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "16px 16px 120px" }}>
+
+        {/* ===== SENIOR Q&A VIEW ===== */}
+        {view === "senior" && (
+          <div>
+            {/* Header */}
+            <div style={{ background: "linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.06))", border: "1px solid rgba(236,72,153,0.2)", borderRadius: 14, padding: "18px 20px", marginBottom: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#ec4899", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 6 }}>50 Questions · 5 Categories</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: "#e2e8f0", marginBottom: 6 }}>Senior Gen AI Engineer — Interview Bank</div>
+              <p style={{ fontSize: 13, color: "#64748b", margin: 0, lineHeight: 1.6 }}>
+                Every question below maps to concepts from the 15-day plan. Levels: <span style={{ color: "#10b981", fontWeight: 700 }}>Mid</span> → <span style={{ color: "#f59e0b", fontWeight: 700 }}>Senior</span> → <span style={{ color: "#ec4899", fontWeight: 700 }}>Staff</span>. Click any question to see the full answer.
+              </p>
+            </div>
+
+            {SENIOR_QA.map((cat, ci) => (
+              <div key={ci} style={{ marginBottom: 24 }}>
+                {/* Category header */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                  <div style={{ height: 1, flex: 1, background: cat.color + "30" }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: cat.color, textTransform: "uppercase", letterSpacing: 1.2 }}>{cat.category}</span>
+                    <span style={{ fontSize: 10, color: "#475569", padding: "2px 8px", background: "#111318", border: "1px solid #1e2330", borderRadius: 99 }}>{cat.fromDays}</span>
+                  </div>
+                  <div style={{ height: 1, flex: 1, background: cat.color + "30" }} />
+                </div>
+
+                {cat.questions.map((item, qi) => {
+                  const key = `${ci}-${qi}`;
+                  const isOpen = openSeniorQ === key;
+                  const levelColor = item.level === "Staff" ? "#ec4899" : item.level === "Senior" ? "#f59e0b" : "#10b981";
+                  return (
+                    <div key={qi} style={{
+                      background: "#111318",
+                      border: `1px solid ${isOpen ? cat.color + "35" : "#1e2330"}`,
+                      borderRadius: 11, marginBottom: 7, overflow: "hidden", transition: "border-color 0.2s",
+                    }}>
+                      <div onClick={() => setOpenSeniorQ(isOpen ? null : key)}
+                        style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "13px 15px", cursor: "pointer" }}>
+                        <div style={{ width: 24, height: 24, borderRadius: 6, background: cat.color + "12", border: `1px solid ${cat.color}25`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: cat.color, flexShrink: 0, fontFamily: "monospace", marginTop: 1 }}>
+                          {ci * 10 + qi + 1 > 9 ? ci * 10 + qi + 1 : `0${ci * 10 + qi + 1}`}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4, flexWrap: "wrap" }}>
+                            <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 99, background: levelColor + "15", color: levelColor }}>{item.level}</span>
+                          </div>
+                          <div style={{ fontSize: 13.5, fontWeight: 700, color: "#e2e8f0", lineHeight: 1.4 }}>{item.q}</div>
+                        </div>
+                        <span style={{ color: "#475569", fontSize: 13, flexShrink: 0, marginTop: 2, transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0)" }}>▾</span>
+                      </div>
+                      {isOpen && (
+                        <div style={{ borderTop: "1px solid #1e2330", padding: "14px 15px 15px 51px", animation: "itFade 0.15s ease-out" }}>
+                          <p style={{ fontSize: 13.5, color: "#94a3b8", lineHeight: 1.75, margin: 0 }}>{item.a}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ===== 15-DAY PLAN VIEW ===== */}
+        {view === "plan" && <>
 
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 16 }}>
@@ -679,6 +1032,7 @@ export default function InterviewTrack() {
             </p>
           </div>
         )}
+        </>}
       </div>
     </div>
   );
