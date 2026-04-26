@@ -653,6 +653,113 @@ export default function InterviewTrack() {
   const [showCheatSheet, setShowCheatSheet] = useState(false);
   const [openSeniorQ, setOpenSeniorQ] = useState(null);
 
+  const downloadQA = () => {
+    const levelColor = (level) =>
+      level === "Staff" ? "#7c3aed" : level === "Senior" ? "#b45309" : "#065f46";
+    const levelBg = (level) =>
+      level === "Staff" ? "#ede9fe" : level === "Senior" ? "#fef3c7" : "#d1fae5";
+
+    const coreQRows = ALL_QA.map(
+      (qa, i) => `
+      <div class="qa-block">
+        <div class="q-row">
+          <span class="num">${String(i + 1).padStart(2, "0")}</span>
+          <span class="q-text">${qa.q}</span>
+        </div>
+        <div class="a-text">${qa.a}</div>
+      </div>`
+    ).join("");
+
+    const seniorRows = SENIOR_QA.map(
+      (cat) => `
+      <div class="category-block">
+        <div class="category-header">
+          <span class="cat-title">${cat.category}</span>
+          <span class="cat-days">${cat.fromDays}</span>
+        </div>
+        ${cat.questions.map((item, qi) => `
+          <div class="qa-block">
+            <div class="q-row">
+              <span class="level-badge" style="background:${levelBg(item.level)};color:${levelColor(item.level)}">${item.level}</span>
+              <span class="q-text">${item.q}</span>
+            </div>
+            <div class="a-text">${item.a}</div>
+          </div>`).join("")}
+      </div>`
+    ).join("");
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Senior Gen AI Engineer — Interview Q&A Bank</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; color: #1a202c; font-size: 13px; line-height: 1.6; }
+  .cover { text-align: center; padding: 60px 40px 40px; border-bottom: 3px solid #6366f1; margin-bottom: 32px; }
+  .cover-tag { display: inline-block; background: #ede9fe; color: #5b21b6; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 16px; }
+  .cover h1 { font-size: 28px; font-weight: 800; color: #1a202c; line-height: 1.2; margin-bottom: 10px; }
+  .cover p { color: #64748b; font-size: 13px; max-width: 520px; margin: 0 auto; }
+  .cover-meta { display: flex; justify-content: center; gap: 32px; margin-top: 20px; }
+  .cover-meta span { font-size: 12px; font-weight: 700; color: #475569; }
+  .cover-meta strong { color: #6366f1; }
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #6366f1; background: #f5f3ff; border-left: 4px solid #6366f1; padding: 8px 14px; margin: 0 0 20px; border-radius: 0 6px 6px 0; }
+  .category-block { margin-bottom: 28px; }
+  .category-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+  .cat-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #334155; }
+  .cat-days { font-size: 10px; color: #94a3b8; background: #f1f5f9; padding: 2px 8px; border-radius: 99px; }
+  .qa-block { margin-bottom: 16px; padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fafafa; break-inside: avoid; }
+  .q-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .num { min-width: 24px; height: 24px; background: #6366f1; color: #fff; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; font-family: monospace; flex-shrink: 0; }
+  .level-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; white-space: nowrap; margin-top: 2px; }
+  .q-text { font-size: 13.5px; font-weight: 700; color: #1a202c; line-height: 1.4; }
+  .a-text { font-size: 12.5px; color: #4a5568; line-height: 1.75; padding-left: 34px; }
+  .page-break { page-break-before: always; }
+  @media print {
+    body { font-size: 12px; }
+    .cover { padding: 40px 30px 30px; }
+    .cover h1 { font-size: 24px; }
+    .qa-block { break-inside: avoid; }
+    .category-block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-tag">Interview Preparation Guide</div>
+  <h1>Senior Gen AI Engineer<br/>Interview Q&amp;A Bank</h1>
+  <p>65 questions across 6 categories — Core Q&amp;As, LLMs &amp; Prompting, Embeddings &amp; Vector DBs, RAG Architecture, Agents &amp; Frameworks, Production &amp; System Design.</p>
+  <div class="cover-meta">
+    <span><strong>65</strong> Total Questions</span>
+    <span><strong>6</strong> Categories</span>
+    <span>Levels: <strong>Mid → Senior → Staff</strong></span>
+  </div>
+</div>
+
+<div class="section-title">Section 1 — 15 Core Interview Questions &amp; Answers</div>
+${coreQRows}
+
+<div class="page-break"></div>
+<div class="section-title">Section 2 — 50 Senior-Level Deep-Dive Questions</div>
+${seniorRows}
+
+<script>window.onload = () => window.print();<\/script>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const win = window.open(url, "_blank");
+    if (!win) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "GenAI-Interview-QA-Bank.html";
+      a.click();
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  };
+
   useEffect(() => {
     const style = document.createElement("style");
     style.textContent = `
@@ -732,11 +839,29 @@ export default function InterviewTrack() {
           <div>
             {/* Header */}
             <div style={{ background: "linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.06))", border: "1px solid rgba(236,72,153,0.2)", borderRadius: 14, padding: "18px 20px", marginBottom: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#ec4899", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 6 }}>50 Questions · 5 Categories</div>
-              <div style={{ fontSize: 17, fontWeight: 800, color: "#e2e8f0", marginBottom: 6 }}>Senior Gen AI Engineer — Interview Bank</div>
-              <p style={{ fontSize: 13, color: "#64748b", margin: 0, lineHeight: 1.6 }}>
-                Every question below maps to concepts from the 15-day plan. Levels: <span style={{ color: "#10b981", fontWeight: 700 }}>Mid</span> → <span style={{ color: "#f59e0b", fontWeight: 700 }}>Senior</span> → <span style={{ color: "#ec4899", fontWeight: 700 }}>Staff</span>. Click any question to see the full answer.
-              </p>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ec4899", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 6 }}>65 Questions · 6 Categories</div>
+                  <div style={{ fontSize: 17, fontWeight: 800, color: "#e2e8f0", marginBottom: 6 }}>Senior Gen AI Engineer — Interview Bank</div>
+                  <p style={{ fontSize: 13, color: "#64748b", margin: 0, lineHeight: 1.6 }}>
+                    Every question maps to the 15-day plan. Levels: <span style={{ color: "#10b981", fontWeight: 700 }}>Mid</span> → <span style={{ color: "#f59e0b", fontWeight: 700 }}>Senior</span> → <span style={{ color: "#ec4899", fontWeight: 700 }}>Staff</span>. Click any question to expand the answer.
+                  </p>
+                </div>
+                <button
+                  onClick={downloadQA}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 7,
+                    padding: "9px 16px", borderRadius: 9, cursor: "pointer",
+                    background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.4)",
+                    color: "#a78bfa", fontSize: 12, fontWeight: 700, flexShrink: 0,
+                    transition: "all 0.2s", whiteSpace: "nowrap",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(139,92,246,0.25)"; e.currentTarget.style.borderColor = "rgba(139,92,246,0.6)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(139,92,246,0.15)"; e.currentTarget.style.borderColor = "rgba(139,92,246,0.4)"; }}
+                >
+                  ⬇ Download PDF
+                </button>
+              </div>
             </div>
 
             {SENIOR_QA.map((cat, ci) => (
