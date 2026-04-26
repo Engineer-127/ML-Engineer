@@ -2,11 +2,13 @@ import { useState } from "react";
 import App from "./App.jsx";
 import InterviewTrack from "./InterviewTrack.jsx";
 import AWSTrack from "./AWSTrack.jsx";
+import FortyFiveDay from "./FortyFiveDay.jsx";
 
 const TABS = [
   { id: "30day",  label: "15-Day Interview Track", color: "#10b981" },
   { id: "aws",    label: "AWS 15-Day Track",        color: "#f97316" },
-  { id: "90day",  label: "90-Day Full Roadmap",     color: "#06b6d4" },
+  { id: "45day",  label: "45-Day Roadmap",          color: "#06b6d4" },
+  { id: "90day",  label: "90-Day Full Roadmap",     color: "#8b5cf6" },
 ];
 
 export default function Root() {
@@ -21,6 +23,7 @@ export default function Root() {
     <>
       {mode === "30day" && <InterviewTrack />}
       {mode === "aws"   && <AWSTrack />}
+      {mode === "45day" && <FortyFiveDay />}
       {mode === "90day" && <App />}
 
       {/* Fixed pill switcher at bottom */}
