@@ -3,12 +3,16 @@ import App from "./App.jsx";
 import InterviewTrack from "./InterviewTrack.jsx";
 import AWSTrack from "./AWSTrack.jsx";
 import FortyFiveDay from "./FortyFiveDay.jsx";
+import AgenticInterviewTrack from "./AgenticInterviewTrack.jsx";
+import AgenticFortyFiveDay from "./AgenticFortyFiveDay.jsx";
 
 const TABS = [
-  { id: "30day",  label: "15-Day Interview Track", color: "#10b981" },
-  { id: "aws",    label: "AWS 15-Day Track",        color: "#f97316" },
-  { id: "45day",  label: "45-Day Roadmap",          color: "#06b6d4" },
-  { id: "90day",  label: "90-Day Full Roadmap",     color: "#8b5cf6" },
+  { id: "30day",       label: "Gen AI Interview",      color: "#10b981" },
+  { id: "45day",       label: "Gen AI 45-Day",         color: "#06b6d4" },
+  { id: "ag-interview",label: "Agentic Interview",     color: "#8b5cf6" },
+  { id: "ag-45day",    label: "Agentic 45-Day",        color: "#ec4899" },
+  { id: "aws",         label: "AWS 15-Day",            color: "#f97316" },
+  { id: "90day",       label: "90-Day Full",           color: "#a78bfa" },
 ];
 
 export default function Root() {
@@ -21,10 +25,12 @@ export default function Root() {
 
   return (
     <>
-      {mode === "30day" && <InterviewTrack />}
-      {mode === "aws"   && <AWSTrack />}
-      {mode === "45day" && <FortyFiveDay />}
-      {mode === "90day" && <App />}
+      {mode === "30day"        && <InterviewTrack />}
+      {mode === "aws"          && <AWSTrack />}
+      {mode === "45day"        && <FortyFiveDay />}
+      {mode === "90day"        && <App />}
+      {mode === "ag-interview" && <AgenticInterviewTrack />}
+      {mode === "ag-45day"     && <AgenticFortyFiveDay />}
 
       {/* Fixed pill switcher at bottom */}
       <div style={{
