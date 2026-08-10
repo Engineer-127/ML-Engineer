@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local project environments and generated caches
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+pytest-cache-files-*/
+*.pyc

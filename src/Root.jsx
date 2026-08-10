@@ -5,6 +5,8 @@ import AWSTrack from "./AWSTrack.jsx";
 import FortyFiveDay from "./FortyFiveDay.jsx";
 import AgenticInterviewTrack from "./AgenticInterviewTrack.jsx";
 import AgenticFortyFiveDay from "./AgenticFortyFiveDay.jsx";
+import LangChainSprint from "./LangChainSprint.jsx";
+import LangChainMastery from "./LangChainMastery.jsx";
 
 const TABS = [
   { id: "30day",       label: "Gen AI Interview",      color: "#10b981" },
@@ -13,6 +15,8 @@ const TABS = [
   { id: "ag-45day",    label: "Agentic 45-Day",        color: "#ec4899" },
   { id: "aws",         label: "AWS 15-Day",            color: "#f97316" },
   { id: "90day",       label: "90-Day Full",           color: "#a78bfa" },
+  { id: "lc-lg-3day",  label: "LC/LG 3-Day",           color: "#22d3ee" },
+  { id: "lc-lg-mastery",label: "LC/LG Mastery",        color: "#a78bfa" },
 ];
 
 export default function Root() {
@@ -31,12 +35,14 @@ export default function Root() {
       {mode === "90day"        && <App />}
       {mode === "ag-interview" && <AgenticInterviewTrack />}
       {mode === "ag-45day"     && <AgenticFortyFiveDay />}
+      {mode === "lc-lg-3day"   && <LangChainSprint />}
+      {mode === "lc-lg-mastery" && <LangChainMastery />}
 
       {/* Fixed pill switcher at bottom */}
       <div style={{
         position: "fixed", bottom: 20, left: "50%", transform: "translateX(-50%)",
-        zIndex: 999, display: "flex", background: "#0d1017",
-        border: "1px solid #1e2330", borderRadius: 12, overflow: "hidden",
+        zIndex: 999, display: "flex", background: "#0d1017", maxWidth: "calc(100vw - 24px)", overflowX: "auto",
+        border: "1px solid #1e2330", borderRadius: 12,
         boxShadow: "0 4px 32px rgba(0,0,0,0.8)",
       }}>
         {TABS.map((tab, i) => (
